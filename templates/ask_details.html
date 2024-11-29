@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Podaj swoje dane</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='/styles_details.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Podaj swoje dane</h1>
+        <p>Wprowadź swoje dane i pomóż nam spersonalizować jak najlepiej plan dla Ciebie.</p>
+
+        <!-- Formularz do wprowadzenia danych -->
+        <form id="user-data-form" method="POST">
+            <input type="text" name="first-name" placeholder="Imię" required />
+            <input type="text" name="last-name" placeholder="Nazwisko" required />
+            <input type="number" name="age" placeholder="Wiek" required min="1" />
+            <input type="date" name="birth-date" placeholder="Data urodzenia" required />
+            <input type="number" name="height" placeholder="Wzrost (cm)" required min="1" />
+            <input type="number" name="weight" placeholder="Waga (kg)" required min="1" />
+            <input type="text" name="discipline" placeholder="Dyscyplina Sportowa" required />
+            <input type="password" name="password" placeholder="Hasło do konta" required /> <!-- Nowe pole -->
+            <button type="submit">Zatwierdź</button>
+        </form>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dziękujemy!</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='/thank_you.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Dziękujemy za podanie danych!</h1>
+        <p>Twoje dane zostały zapisane.</p>
+        <button onclick="window.location.href='{{ url_for('main') }}'">Przejdź do głównego menu</button>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TreningManager</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='/styles.css') }}">
+</head>
+
+<body>
+    {% if session.get('user_name') %}
+    <h1>Cześć, {{ session.get('user_name') }}!</h1>
+    {% else %}
+    <h1>Hello</h1>
+    {% endif %}
+
+    <footer>
+        <p>&copy; 2024 TreningManager - Wszystkie prawa zastrzeżone</p>
+    </footer>
+</body>
+
+</html>
