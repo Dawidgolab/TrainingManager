@@ -5,15 +5,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TreningManager</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
 </head>
 
 <body>
-    {% if session.get('user_name') %}
-    <h1>Cześć, {{ session.get('user_name') }}!</h1>
-    {% else %}
-    <h1>Hello</h1>
-    {% endif %}
+    <div class="hero">
+        {% if session.get('user_name') %}
+        <h1>Cześć, {{ session.get('user_name') }}!</h1>
+        <p>Witaj w TreningManager! Oto opcje, które przygotowaliśmy dla Ciebie.</p>
+        {% else %}
+        <h1>Witaj w TreningManager!</h1>
+        <p>Stwórz swój plan treningowy i zacznij osiągać cele!</p>
+        {% endif %}
+    </div>
+
+    <div class="features">
+        <h2>Opcje dostępne w aplikacji</h2>
+        <div class="feature-cards">
+            <!-- 6 prostokątów, każdy opakowany w link -->
+            <a href="/treningi" class="feature-card">
+                <img src="https://img.icons8.com/ios-filled/50/000000/dumbbell.png" alt="Trening" />
+                <h3>Treningi</h3>
+                <p>Stwórz plan treningowy dostosowany do twojej dyscypliny.</p>
+            </a>
+            <a href="/dyscypliny" class="feature-card">
+                <img src="https://img.icons8.com/?size=100&id=83hKaB6WiN1j&format=png&color=000000" alt="Dyscypliny" />
+                <h3>D</h3>
+                <p>Wybierz swoją dyscyplinę, aby uzyskać spersonalizowany plan.</p>
+            </a>
+            <a href="/kalendarz" class="feature-card">
+                <img src="https://img.icons8.com/ios-filled/50/000000/calendar.png" alt="Planowanie" />
+                <h3>Kalendarz</h3>
+                <p>Ustaw harmonogram treningów i śledź postępy.</p>
+            </a>
+            <a href="/postepy" class="feature-card">
+                <img src="https://img.icons8.com/calculator" alt="Postępy" />
+                <h3>Kalkulator</h3>
+                <p>Oblicz swoje BMI oraz zapotrzebowanie kaloryczne</p>
+            </a>
+            <a href="/nagrody" class="feature-card">
+                <img src="https://img.icons8.com/ios-filled/50/000000/medal.png" alt="Nagrody" />
+                <h3>N</h3>
+                <p>Otrzymuj nagrody za osiągnięcie celów treningowych.</p>
+            </a>
+            <a href="/ranking" class="feature-card">
+                <img src="https://img.icons8.com/?size=100&id=127&format=png&color=000000" alt="Ranking" />
+                <h3>Twoje dane</h3>
+                <p>Sprawdź swoje parametry.</p>
+            </a>
+        </div>
+    </div>
 
     <footer>
         <p>&copy; 2024 TreningManager - Wszystkie prawa zastrzeżone</p>
