@@ -7,7 +7,7 @@
 
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f4f4f4;
+    background-color: #f4f4f48f;
     color: #333;
     line-height: 1.6;
     /* Czytelne odstępy */
@@ -32,10 +32,10 @@ body {
 }
 
 .hero-content {
-    max-width: 800px;
-    padding: 20px;
-    background: rgba(0, 0, 0, 0.5);
-    border-radius: 10px;
+    max-width: 6000px;
+    padding: 100px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 30px;
 }
 
 .hero-content h1 {

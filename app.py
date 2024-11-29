@@ -89,7 +89,7 @@ def login():
             return redirect(url_for('main'))  # Przekierowanie na stronę 'main'
         else:
             # Niepoprawne dane logowania
-            flash("Niepoprawne dane logowania. Spróbuj ponownie.")  # Wyświetl komunikat
+            flash("Niepoprawne dane logowania. Spróbuj ponownie.", "error" )  # Wyświetl komunikat
             return redirect(url_for('login'))  # Powrót do strony logowania
     
     return render_template('login.html')
