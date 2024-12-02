@@ -1,0 +1,132 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #5ef766;
+    color: #333;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+}
+
+#big-timer {
+    font-size: 4rem;
+    font-weight: bold;
+    color: #000;
+}
+
+.features {
+    flex-grow: 1;
+    background-color: #e6d6d6;
+    padding: 50px 20px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+    max-width: 300px;
+    margin: 0 auto 15px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 1rem;
+    margin-bottom: 5px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Dodatkowe style dla przycisków */
+button {
+    font-size: 1.5rem;
+    padding: 10px 20px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+button.stop {
+    background-color: #dc3545;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+button.reset {
+    background-color: #dc3545;
+}
+
+/* Grupowanie przycisków razem */
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    /* Większy odstęp między przyciskami */
+    margin-top: 20px;
+}
+
+footer {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+}
+
+#timer-display {
+    margin-top: 20px;
+    font-size: 1.5rem;
+    color: #333;
+}
+
+body.break {
+    background-color: #d45151;
+    /* Kolor tła w trakcie przerwy */
+}
+
+#status {
+    font-size: 2rem;
+    /* Większy rozmiar czcionki */
+    text-align: center;
+    /* Wyrównanie tekstu do środka */
+    margin-top: 20px;
+    /* Odstęp od zegara */
+    color: #333;
+    /* Kolor tekstu */
+    font-weight: bold;
+    /* Pogrubienie tekstu */
+}

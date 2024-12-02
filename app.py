@@ -3,7 +3,7 @@ from models import db, UserData, UserCredentials
 from sqlalchemy.exc import SQLAlchemyError
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import Flask, render_template, request, redirect, url_for, session,flash  # Dodaj 'session'
-
+import os
 
 
 app = Flask(__name__)
@@ -100,10 +100,18 @@ def login():
 def main():
     return render_template('main.html')
 
+
+# strona z boxing timer
+@app.route('/Timer')
+def boxing_timer():
+    return render_template('Timer.html')
+
+
 # Strona podziękowania
 @app.route('/thank_you')
 def thank_you():
     return render_template('thank_you.html')  # Wyświetlenie podziękowania
+
 
 if __name__ == '__main__':
     with app.app_context():
