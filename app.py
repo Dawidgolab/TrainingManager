@@ -106,6 +106,10 @@ def main():
 def boxing_timer():
     return render_template('Timer.html')
 
+#strona z BMI
+@app.route('/BMI')
+def BMI():
+    return render_template('BMI.html')
 
 # Strona podziękowania
 @app.route('/thank_you')
