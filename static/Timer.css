@@ -42,7 +42,7 @@ body {
 
 .features {
     flex-grow: 1;
-    background-color: #e6d6d6;
+    background: linear-gradient(90deg, rgba(17, 114, 176, 1) 35%, rgba(33, 230, 18, 1) 96%);
     padding: 50px 20px;
     text-align: center;
 }

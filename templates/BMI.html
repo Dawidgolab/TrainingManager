@@ -11,7 +11,8 @@
 <body>
     <div class="hero">
         <h1>Kalkulator BMI</h1>
-        <br>Oblicz swoje BMI i sprawdź, w jakiej jesteś kategorii wagowej! </br>Bądź świadom swojego zdrowia!!</p>
+        <br><b>Oblicz swoje BMI i sprawdź, w jakiej jesteś kategorii wagowej! </br>Bądź świadom swojego zdrowia!!</p>
+        </b>
         <div class="form-container">
             <form id="bmi-form">
                 <div class="form-group">
@@ -26,13 +27,13 @@
             </form>
         </div>
         <div id="result-container" class="hidden">
-            <p>Twoje BMI: <span id="bmi-result">--</span></p>
-            <p>Kategoria: <span id="bmi-category">--</span></p>
+            <p><b>Twoje BMI: </b><span id="bmi-result">--</span></p>
+            <p><b>Kategoria:</b> <span id="bmi-category">--</span></p>
         </div>
     </div>
 
     <footer>
-        <p>&copy; 2024 Kalkulator BMI - Wszystkie prawa zastrzeżone</p>
+        <p>&copy; <b>2024 Kalkulator BMI - Wszystkie prawa zastrzeżone</b></p>
     </footer>
 
     <script>
@@ -47,9 +48,9 @@
         };
 
         const getBMICategory = (bmi) => {
-            if (bmi < 18.5) return 'Niedowaga';
-            if (bmi < 24.9) return 'Waga prawidłowa';
-            if (bmi < 29.9) return 'Nadwaga';
+            if (bmi < 18.5) return '<b>Niedowaga</b>';
+            if (bmi < 24.9) return '<b>Waga prawidłowa</b>';
+            if (bmi < 29.9) return '<b>Nadwaga</b>';
             return 'Otyłość';
         };
 

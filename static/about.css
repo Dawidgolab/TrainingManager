@@ -13,7 +13,7 @@ body {
 
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f4f4f4;
+    background: linear-gradient(90deg, rgba(17, 114, 176, 1) 35%, rgba(33, 230, 18, 1) 96%);
     color: #333;
     line-height: 1.6;
     display: flex;
@@ -82,7 +82,7 @@ body {
 .features {
     flex-grow: 1;
     /* Sekcja rozciąga się, aby wypełnić ekran */
-    background-color: #fff;
+    background-color: linear-gradient(90deg, rgba(17, 114, 176, 1) 35%, rgba(33, 230, 18, 1) 96%);
     padding: 50px 20px;
     text-align: center;
 }

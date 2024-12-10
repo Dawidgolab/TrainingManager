@@ -7,7 +7,7 @@
 
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f4f4f48f;
+    background-color: linear-gradient(90deg, rgba(2, 0, 36, 1) 35%, rgba(17, 121, 9, 1) 96%);
     color: #333;
     line-height: 1.6;
     /* Czytelne odstępy */
@@ -21,7 +21,7 @@ body {
 
 /* Sekcja Hero */
 .hero {
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1549366029-8db7a8e2b5f5') no-repeat center center/cover;
+    background: linear-gradient(90deg, rgba(2, 0, 36, 1) 35%, rgba(17, 121, 9, 1) 96%);
     height: 100vh;
     display: flex;
     justify-content: center;

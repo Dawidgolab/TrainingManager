@@ -7,9 +7,9 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #f7f7f7;
+    background: linear-gradient(90deg, rgba(17, 114, 176, 1) 35%, rgba(33, 230, 18, 1) 96%);
     /* Jasne tło */
-    color: #333;
+    color: black;
     /* Ciemny tekst */
     display: flex;
     justify-content: center;
@@ -21,20 +21,23 @@ body {
 .container {
     width: 100%;
     max-width: 600px;
-    background-color: #fff;
+    background-color: rgb(112, 146, 58);
     padding: 40px;
     border-radius: 8px;
     box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    border: 3px solid black;
 }
+
+
 
 h1 {
     font-size: 2rem;
-    color: #4CAF50;
+    color: black;
 }
 
 p {
     font-size: 1rem;
-    color: #555;
+    color: black;
 }
 
 input[type="text"],

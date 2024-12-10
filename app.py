@@ -111,11 +111,6 @@ def boxing_timer():
 def BMI():
     return render_template('BMI.html')
 
-# Strona podziękowania
-@app.route('/thank_you')
-def thank_you():
-    return render_template('thank_you.html')  # Wyświetlenie podziękowania
-
 
 if __name__ == '__main__':
     with app.app_context():
