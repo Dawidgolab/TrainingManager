@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalendarz Treningowy</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='calendar.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <header class="hero">
+            <h1>Kalendarz Treningowy</h1>
+        </header>
+
+        <div id="calendar-container">
+            <div id="calendar"></div>
+        </div>
+
+        <div class="features">
+            <form id="training-form" class="hidden">
+                <label for="training-date">Wybierz datę treningu:</label>
+                <input type="date" id="training-date" required>
+                <label for="training-type">Typ treningu:</label>
+                <input type="text" id="training-type" placeholder="Np. Boks, Siłownia" required>
+                <button type="submit" class="btn">Zapisz Trening</button>
+            </form>
+        </div>
+
+        <footer>
+            <p>&copy; 2024 Kalendarz Treningowy - Wszystkie prawa zastrzeżone</p>
+        </footer>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            let date = new Date();
+            let month = date.getMonth();
+            let year = date.getFullYear();
+            let day = date.getDate();
+
+            const monthName = ["Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec", "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"];
+            const dayName = ["Pon", "Wto", "Śro", "Czw", "Pią", "Sob", "Nie"];
+
+            function generateCalendar() {
+                const calendar = $('#calendar');
+                calendar.empty();
+
+                calendar.append(`
+                    <div class="calendar-header">
+                        <div class="nav-btn" id="prev-month"><</div>
+                        <div class="month-year">${monthName[month]} ${year}</div>
+                        <div class="nav-btn" id="next-month">></div>
+                    </div>
+                `);
+
+                dayName.forEach((name, i) => {
+                    let className = i === 5 ? 'saturday' : i === 6 ? 'sunday' : '';
+                    calendar.append(`<div class="day-name ${className}">${name}</div>`);
+                });
+
+                let startDay = new Date(year, month, 1).getDay();
+                startDay = startDay === 0 ? 7 : startDay;
+
+                for (let i = 1; i < startDay; i++) {
+                    calendar.append(`<div class="none"></div>`);
+                }
+
+                const maxDay = new Date(year, month + 1, 0).getDate();
+                for (let i = 1; i <= maxDay; i++) {
+                    let dateString = `${year}-${month + 1}-${i}`;
+                    const trainings = JSON.parse(localStorage.getItem('trainings')) || [];
+                    const training = trainings.find(t => t.date === dateString);
+
+                    let classes = "day";
+                    if (i === day) classes += " today";
+
+                    let dayHtml = `<div class="${classes}" data-date="${dateString}">${i}`;
+                    if (training) {
+                        dayHtml += `
+                            <div class="training" style="cursor: pointer;" title="Kliknij, aby usunąć">
+                                ${training.type}
+                            </div>`;
+                    }
+                    dayHtml += `</div>`;
+                    calendar.append(dayHtml);
+                }
+            }
+
+            $('#calendar').on('click', '.nav-btn', function () {
+                if (this.id === "prev-month") {
+                    month--;
+                    if (month < 0) { month = 11; year--; }
+                } else {
+                    month++;
+                    if (month > 11) { month = 0; year++; }
+                }
+                generateCalendar();
+            });
+
+            $('#calendar').on('click', '.day', function () {
+                $('#training-form').removeClass('hidden');
+                $('#training-date').val($(this).data('date'));
+            });
+
+            $('#calendar').on('click', '.training', function (e) {
+                e.stopPropagation(); // Zapobiega otwarciu formularza
+                const date = $(this).parent().data('date');
+                deleteTraining(date); // Usunięcie treningu
+            });
+
+            $('#training-form').submit(function (e) {
+                e.preventDefault();
+                const date = $('#training-date').val();
+                const type = $('#training-type').val();
+
+                let trainings = JSON.parse(localStorage.getItem('trainings')) || [];
+                trainings.push({ date, type });
+                localStorage.setItem('trainings', JSON.stringify(trainings));
+
+                $('#training-form').addClass('hidden');
+                generateCalendar();
+            });
+
+            function deleteTraining(date) {
+                if (confirm("Czy na pewno chcesz usunąć trening z tego dnia?")) {
+                    let trainings = JSON.parse(localStorage.getItem('trainings')) || [];
+                    trainings = trainings.filter(t => t.date !== date);
+                    localStorage.setItem('trainings', JSON.stringify(trainings));
+                    generateCalendar(); // Odświeżenie kalendarza
+                }
+            }
+
+            generateCalendar();
+        });
+    </script>
+
+</body>
+
+</html>

@@ -111,6 +111,12 @@ def boxing_timer():
 def BMI():
     return render_template('BMI.html')
 
+#strona z Kalendarzem
+@app.route('/Calendar')
+def Calendar():
+    return render_template('Calendar.html')
+
+
 
 if __name__ == '__main__':
     with app.app_context():
