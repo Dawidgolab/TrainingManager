@@ -4,39 +4,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kalkulator BMI</title>
+    <title>Kalkulatory</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='BMI.css') }}">
 </head>
 
 <body>
     <div class="hero">
-        <h1>Kalkulator BMI</h1>
-        <br><b>Oblicz swoje BMI i sprawdź, w jakiej jesteś kategorii wagowej! </br>Bądź świadom swojego zdrowia!!</p>
-        </b>
-        <div class="form-container">
-            <form id="bmi-form">
-                <div class="form-group">
-                    <label for="weight">Waga (kg):</label>
-                    <input type="number" id="weight" name="weight" min="1" step="0.1" placeholder="np. 70" required>
+        <h1>Kalkulatory</h1>
+        <p><b>Oblicz swoje BMI i zapotrzebowanie kaloryczne!</b></p>
+        <div class="calculator-container">
+            <!-- Kalkulator BMI -->
+            <div class="calculator">
+                <h2>Kalkulator BMI</h2>
+                <form id="bmi-form">
+                    <div class="form-group">
+                        <label for="weight">Waga (kg):</label>
+                        <input type="number" id="weight" name="weight" min="1" step="0.1" placeholder="np. 70" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="height">Wzrost (cm):</label>
+                        <input type="number" id="height" name="height" min="50" step="1" placeholder="np. 170" required>
+                    </div>
+                    <button type="submit" id="calculate-button">Oblicz BMI</button>
+                </form>
+                <div id="result-container" class="hidden">
+                    <p><b>Twoje BMI: </b><span id="bmi-result">--</span></p>
+                    <p><b>Kategoria:</b> <span id="bmi-category">--</span></p>
                 </div>
-                <div class="form-group">
-                    <label for="height">Wzrost (cm):</label>
-                    <input type="number" id="height" name="height" min="50" step="1" placeholder="np. 170" required>
+            </div>
+
+            <!-- Kalkulator zapotrzebowania kalorycznego -->
+            <div class="calculator">
+                <h2>Kalkulator zapotrzebowania kalorycznego</h2>
+                <form id="calorie-form">
+                    <div class="form-group">
+                        <label for="age">Wiek (lata):</label>
+                        <input type="number" id="age" name="age" min="10" step="1" placeholder="np. 25" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="weight-calorie">Waga (kg):</label>
+                        <input type="number" id="weight-calorie" name="weight-calorie" min="1" step="0.1"
+                            placeholder="np. 70" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="height-calorie">Wzrost (cm):</label>
+                        <input type="number" id="height-calorie" name="height-calorie" min="50" step="1"
+                            placeholder="np. 170" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="gender">Płeć:</label>
+                        <select id="gender" name="gender" required>
+                            <option value="male">Mężczyzna</option>
+                            <option value="female">Kobieta</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="goal">Cel:</label>
+                        <select id="goal" name="goal" required>
+                            <option value="maintain">Utrzymać wagę</option>
+                            <option value="lose">Zrzucić wagę</option>
+                            <option value="gain">Przybrać na wadze</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="training-frequency">Ile razy w tygodniu trenujesz?</label>
+                        <select id="training-frequency" name="training-frequency" required>
+                            <option value="0">Brak treningów</option>
+                            <option value="1">1 raz w tygodniu</option>
+                            <option value="2">2 razy w tygodniu</option>
+                            <option value="3">3 razy w tygodniu</option>
+                            <option value="4">4 razy w tygodniu</option>
+                            <option value="5">5 razy w tygodniu</option>
+                            <option value="6">6 razy w tygodniu</option>
+                            <option value="7">Codziennie</option>
+                        </select>
+                    </div>
+                    <button type="submit" id="calculate-calorie-button">Oblicz zapotrzebowanie</button>
+                </form>
+                <div id="calorie-result-container" class="hidden">
+                    <p><b>Zapotrzebowanie kaloryczne: </b><span id="calorie-result">--</span> kcal</p>
                 </div>
-                <button type="submit" id="calculate-button">Oblicz BMI</button>
-            </form>
-        </div>
-        <div id="result-container" class="hidden">
-            <p><b>Twoje BMI: </b><span id="bmi-result">--</span></p>
-            <p><b>Kategoria:</b> <span id="bmi-category">--</span></p>
+            </div>
         </div>
     </div>
 
     <footer>
-        <p>&copy; <b>2024 Kalkulator BMI - Wszystkie prawa zastrzeżone</b></p>
+        <p>&copy; <b>2024 Kalkulatory - Wszystkie prawa zastrzeżone</b></p>
     </footer>
 
     <script>
+        // Kalkulator BMI
         const bmiForm = document.getElementById('bmi-form');
         const resultContainer = document.getElementById('result-container');
         const bmiResult = document.getElementById('bmi-result');
@@ -66,6 +123,64 @@
             bmiCategory.textContent = category;
 
             resultContainer.classList.remove('hidden');
+        });
+
+        // Kalkulator zapotrzebowania kalorycznego
+        const calorieForm = document.getElementById('calorie-form');
+        const calorieResultContainer = document.getElementById('calorie-result-container');
+        const calorieResult = document.getElementById('calorie-result');
+
+        const calculateCalories = (age, weight, height, gender, goal, trainingFrequency) => {
+            let bmr;
+            if (gender === 'male') {
+                bmr = 10 * weight + 6.25 * height - 5 * age + 5;
+            } else {
+                bmr = 10 * weight + 6.25 * height - 5 * age - 161;
+            }
+
+            // Mnożniki aktywności fizycznej (Można dostosować)
+            let activityMultiplier = 1.2; // Brak aktywności fizycznej
+            if (trainingFrequency === 1) {
+                activityMultiplier = 1.375; // Lekka aktywność (1-3 dni treningu)
+            } else if (trainingFrequency === 2) {
+                activityMultiplier = 1.55; // Umiarkowana aktywność (3-5 dni treningu)
+            } else if (trainingFrequency === 3) {
+                activityMultiplier = 1.725; // Wysoka aktywność (6 dni treningu)
+            } else if (trainingFrequency === 4) {
+                activityMultiplier = 2.0; // Bardzo wysoka aktywność (codzienne treningi)
+            } else if (trainingFrequency === 5) {
+                activityMultiplier = 2.2; // Bardzo wysoka aktywność (codzienne treningi)
+            } else if (trainingFrequency === 6) {
+                activityMultiplier = 2.375; // Bardzo wysoka aktywność (codzienne treningi)
+            } else if (trainingFrequency === 7) {
+                activityMultiplier = 2.55; // Bardzo wysoka aktywność (codzienne treningi)
+            }
+
+            let totalCalories = bmr * activityMultiplier;
+
+            // Uwzględnienie celu
+            if (goal === 'lose') {
+                totalCalories -= 500; // Deficyt 500 kcal dziennie na redukcję wagi
+            } else if (goal === 'gain') {
+                totalCalories += 500; // Nadwyżka 500 kcal dziennie na przyrost masy ciała
+            }
+
+            return totalCalories;
+        };
+
+        calorieForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const age = parseInt(document.getElementById('age').value);
+            const weight = parseFloat(document.getElementById('weight-calorie').value);
+            const height = parseFloat(document.getElementById('height-calorie').value);
+            const gender = document.getElementById('gender').value;
+            const goal = document.getElementById('goal').value;
+            const trainingFrequency = parseInt(document.getElementById('training-frequency').value);
+
+            const calories = calculateCalories(age, weight, height, gender, goal, trainingFrequency);
+
+            calorieResult.textContent = calories.toFixed(2);
+            calorieResultContainer.classList.remove('hidden');
         });
     </script>
 </body>

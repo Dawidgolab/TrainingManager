@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notatnik</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='Notepad.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Notatnik</h1>
+        <textarea id="note-text" placeholder="Wpisz swoją notatkę tutaj..."></textarea>
+        <div class="buttons">
+            <button id="save-btn">Zapisz</button>
+            <button id="clear-btn">Wyczyść</button>
+        </div>
+        <div id="saved-notes" class="saved-notes">
+            <h2>Twoje zapisane notatki:</h2>
+            <div id="notes-list"></div>
+        </div>
+    </div>
+
+    <script>
+        // Pobieranie elementów z DOM
+        const noteText = document.getElementById('note-text');
+        const saveButton = document.getElementById('save-btn');
+        const clearButton = document.getElementById('clear-btn');
+        const notesList = document.getElementById('notes-list');
+
+        // Funkcja do zapisywania notatki
+        saveButton.addEventListener('click', () => {
+            const noteContent = noteText.value.trim();
+
+            if (noteContent) {
+                const note = document.createElement('div');
+                note.classList.add('note');
+
+                // Tworzenie treści notatki
+                const noteTextContent = document.createElement('span');
+                noteTextContent.textContent = noteContent;
+
+                // Tworzenie przycisku "Usuń" dla każdej notatki
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Usuń';
+                deleteButton.classList.add('delete-btn');
+
+                // Dodaj akcję usuwania notatki
+                deleteButton.addEventListener('click', () => {
+                    note.remove(); // Usuwa notatkę z listy
+                });
+
+                // Dodaj treść notatki i przycisk "Usuń" do elementu notatki
+                note.appendChild(noteTextContent);
+                note.appendChild(deleteButton);
+
+                // Dodaj nową notatkę do listy
+                notesList.appendChild(note);
+
+                // Wyczyść pole tekstowe po zapisaniu
+                noteText.value = '';
+            } else {
+                alert('Proszę wpisać treść notatki!');
+            }
+        });
+
+        // Funkcja do czyszczenia pola tekstowego
+        clearButton.addEventListener('click', () => {
+            noteText.value = ''; // Wyczyść pole tekstowe
+        });
+    </script>
+</body>
+
+</html>

@@ -26,7 +26,6 @@ body {
     justify-content: center;
     text-align: center;
     padding: 20px;
-
 }
 
 .hero h1 {
@@ -39,11 +38,25 @@ body {
     margin-bottom: 20px;
 }
 
-.form-container {
+.calculator-container {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    max-width: 1200px;
+    margin-top: 30px;
+}
+
+.calculator {
     background-color: #e6d6d6;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    width: 45%;
+}
+
+.calculator h2 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
 }
 
 .form-group {
@@ -57,7 +70,8 @@ body {
     font-size: 1rem;
 }
 
-.form-group input {
+.form-group input,
+.form-group select {
     width: 100%;
     padding: 10px;
     font-size: 1rem;
@@ -79,12 +93,14 @@ button:hover {
     opacity: 0.8;
 }
 
-#result-container {
+#result-container,
+#calorie-result-container {
     margin-top: 20px;
     text-align: center;
 }
 
-#result-container.hidden {
+#result-container.hidden,
+#calorie-result-container.hidden {
     display: none;
 }
 

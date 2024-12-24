@@ -106,7 +106,7 @@ def main():
 def boxing_timer():
     return render_template('Timer.html')
 
-#strona z BMI
+#strona z BMI i zapotrzebowaniem kalorycznym 
 @app.route('/BMI')
 def BMI():
     return render_template('BMI.html')
@@ -115,6 +115,11 @@ def BMI():
 @app.route('/Calendar')
 def Calendar():
     return render_template('Calendar.html')
+
+#strona z Notatnikiem
+@app.route('/Notepad')
+def Notepad():
+    return render_template('Notepad.html')
 
 
 
