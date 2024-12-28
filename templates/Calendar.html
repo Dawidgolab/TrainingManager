@@ -44,23 +44,32 @@
             const monthName = ["Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec", "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"];
             const dayName = ["Pon", "Wto", "Śro", "Czw", "Pią", "Sob", "Nie"];
 
+            // Funkcja formatująca liczby (dodaje wiodące zera)
+            function padZero(value) {
+                return value.toString().padStart(2, '0');
+            }
+
+            // Generowanie kalendarza
             function generateCalendar() {
                 const calendar = $('#calendar');
                 calendar.empty();
 
+                // Nagłówek kalendarza
                 calendar.append(`
-                    <div class="calendar-header">
-                        <div class="nav-btn" id="prev-month"><</div>
-                        <div class="month-year">${monthName[month]} ${year}</div>
-                        <div class="nav-btn" id="next-month">></div>
-                    </div>
-                `);
+            <div class="calendar-header">
+                <div class="nav-btn" id="prev-month"><</div>
+                <div class="month-year">${monthName[month]} ${year}</div>
+                <div class="nav-btn" id="next-month">></div>
+            </div>
+        `);
 
+                // Nazwy dni tygodnia
                 dayName.forEach((name, i) => {
                     let className = i === 5 ? 'saturday' : i === 6 ? 'sunday' : '';
                     calendar.append(`<div class="day-name ${className}">${name}</div>`);
                 });
 
+                // Pierwszy dzień miesiąca
                 let startDay = new Date(year, month, 1).getDay();
                 startDay = startDay === 0 ? 7 : startDay;
 
@@ -68,27 +77,31 @@
                     calendar.append(`<div class="none"></div>`);
                 }
 
+                // Dni w miesiącu
                 const maxDay = new Date(year, month + 1, 0).getDate();
                 for (let i = 1; i <= maxDay; i++) {
-                    let dateString = `${year}-${month + 1}-${i}`;
+                    let dateString = `${year}-${padZero(month + 1)}-${padZero(i)}`;
                     const trainings = JSON.parse(localStorage.getItem('trainings')) || [];
                     const training = trainings.find(t => t.date === dateString);
 
                     let classes = "day";
-                    if (i === day) classes += " today";
+                    if (i === day && month === new Date().getMonth() && year === new Date().getFullYear()) {
+                        classes += " today";
+                    }
 
                     let dayHtml = `<div class="${classes}" data-date="${dateString}">${i}`;
                     if (training) {
                         dayHtml += `
-                            <div class="training" style="cursor: pointer;" title="Kliknij, aby usunąć">
-                                ${training.type}
-                            </div>`;
+                    <div class="training" style="cursor: pointer;" title="Kliknij, aby usunąć">
+                        ${training.type}
+                    </div>`;
                     }
                     dayHtml += `</div>`;
                     calendar.append(dayHtml);
                 }
             }
 
+            // Obsługa nawigacji po miesiącach
             $('#calendar').on('click', '.nav-btn', function () {
                 if (this.id === "prev-month") {
                     month--;
@@ -100,17 +113,20 @@
                 generateCalendar();
             });
 
+            // Otwieranie formularza dodawania treningu
             $('#calendar').on('click', '.day', function () {
                 $('#training-form').removeClass('hidden');
                 $('#training-date').val($(this).data('date'));
             });
 
+            // Usuwanie treningu
             $('#calendar').on('click', '.training', function (e) {
                 e.stopPropagation(); // Zapobiega otwarciu formularza
                 const date = $(this).parent().data('date');
                 deleteTraining(date); // Usunięcie treningu
             });
 
+            // Zapisywanie treningu
             $('#training-form').submit(function (e) {
                 e.preventDefault();
                 const date = $('#training-date').val();
@@ -124,6 +140,7 @@
                 generateCalendar();
             });
 
+            // Funkcja usuwania treningu
             function deleteTraining(date) {
                 if (confirm("Czy na pewno chcesz usunąć trening z tego dnia?")) {
                     let trainings = JSON.parse(localStorage.getItem('trainings')) || [];
@@ -135,6 +152,7 @@
 
             generateCalendar();
         });
+
     </script>
 
 </body>

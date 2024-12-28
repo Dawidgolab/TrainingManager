@@ -10,9 +10,6 @@ class UserData(db.Model):
     first_name = db.Column(db.String(100), nullable=False)
     last_name = db.Column(db.String(100), nullable=False)
     age = db.Column(db.Integer, nullable=False)
-    birth_date = db.Column(db.Date, nullable=False)
-    height = db.Column(db.Float, nullable=False)
-    weight = db.Column(db.Float, nullable=False)
     discipline = db.Column(db.String(100), nullable=False)
 
     def __repr__(self):

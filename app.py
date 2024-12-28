@@ -45,9 +45,6 @@ def ask_details():
                 first_name=user_data.get("first-name"),
                 last_name=user_data.get("last-name"),
                 age=int(user_data.get("age")),
-                birth_date=user_data.get("birth-date"),
-                height=float(user_data.get("height")),
-                weight=float(user_data.get("weight")),
                 discipline=user_data.get("discipline"),
             )
             db.session.add(new_user)

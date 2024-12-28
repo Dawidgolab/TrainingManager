@@ -11,16 +11,13 @@
 <body>
     <div class="container">
         <h1>Podaj swoje dane</h1>
-        <p>Wprowadź swoje dane i pomóż nam spersonalizować jak najlepiej plan dla Ciebie.</p>
+        <p>Wprowadź swoje dane i załóż konto .</p>
 
         <!-- Formularz do wprowadzenia danych -->
         <form id="user-data-form" method="POST">
             <input type="text" name="first-name" placeholder="Imię" required />
             <input type="text" name="last-name" placeholder="Nazwisko" required />
             <input type="number" name="age" placeholder="Wiek" required min="1" />
-            <input type="date" name="birth-date" placeholder="Data urodzenia" required />
-            <input type="number" name="height" placeholder="Wzrost (cm)" required min="1" />
-            <input type="number" name="weight" placeholder="Waga (kg)" required min="1" />
             <label for="discipline">Dyscyplina Sportowa:</label>
             <select name="discipline" id="discipline" required>
                 <option value="" disabled selected>Wybierz opcję</option>
