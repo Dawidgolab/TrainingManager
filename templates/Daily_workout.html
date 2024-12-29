@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Losowy Trening Dnia</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='Daily_workout.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <div class="daily-exercise">
+        <h2>Losowy Trening Dnia</h2>
+        <div id="exercise-container">
+            <p id="exercise-name">Kliknij przycisk, aby wylosować ćwiczenia!</p>
+            <button id="generate-exercise" class="btn">Losuj Ćwiczenia</button>
+        </div>
+        <div id="exercise-status" class="hidden">
+            <p>Ćwiczenia na dziś:</p>
+            <ul id="exercise-list"></ul>
+            <button id="mark-completed" class="btn">Zrealizuj</button>
+        </div>
+        <div id="user-stats">
+            <p>Punkty: <span id="points">0</span></p>
+            <p>Poziom: <span id="level">1</span></p>
+        </div>
+    </div>
+
+    <!-- Pasek postępu -->
+    <div id="progress-container">
+        <div id="progress-bar"></div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            const exercises = [
+                { name: "Pompki", min: 10, max: 30 },
+                { name: "Przysiady", min: 15, max: 40 },
+                { name: "Plank", min: 30, max: 90, unit: "sekund" },
+                { name: "Brzuszki", min: 20, max: 50 },
+                { name: "Bieg w miejscu", min: 1, max: 5, unit: "minut" },
+                { name: "Wykroki", min: 10, max: 30 },
+                { name: "Skakanka", min: 30, max: 120, unit: "sekund" },
+                { name: "Sprint", min: 50, max: 200, unit: "metrów" },
+                { name: "Pajacyki", min: 20, max: 50 },
+                { name: "Przysiady z wyskokiem", min: 10, max: 20 },
+                { name: "Podciągnięcia", min: 5, max: 15 },
+                { name: "Bieg na 1 km", min: 1, max: 1, unit: "kilometr" }
+            ];
+
+            let points = 0;
+            let level = 1;
+            const pointsForLevel = 50;
+
+            function updateStats() {
+                $('#points').text(points);
+                $('#level').text(level);
+
+                // Oblicz procentowy postęp
+                const progress = (points % pointsForLevel) / pointsForLevel * 100;
+                $('#progress-bar').css('width', progress + '%');
+            }
+
+            $('#generate-exercise').click(function () {
+                const numExercises = Math.floor(Math.random() * 5) + 1; // Losuj od 1 do 5 ćwiczeń
+                const selectedExercises = [];
+
+                for (let i = 0; i < numExercises; i++) {
+                    const randomExercise = exercises[Math.floor(Math.random() * exercises.length)];
+                    const repetitions = Math.floor(
+                        Math.random() * (randomExercise.max - randomExercise.min + 1)
+                    ) + randomExercise.min;
+
+                    selectedExercises.push({
+                        name: randomExercise.name,
+                        repetitions: repetitions,
+                        unit: randomExercise.unit || "powtórzeń"
+                    });
+                }
+
+                $('#exercise-list').empty();
+                selectedExercises.forEach(exercise => {
+                    $('#exercise-list').append(
+                        `<li>${exercise.name}: ${exercise.repetitions} ${exercise.unit}</li>`
+                    );
+                });
+
+                $('#exercise-container').addClass('hidden');
+                $('#exercise-status').removeClass('hidden');
+            });
+
+            $('#mark-completed').click(function () {
+                points += 10; // Dodaj 10 punktów za każde ukończone ćwiczenie
+                if (points >= level * pointsForLevel) { // Poziom rośnie co 50 punktów
+                    level++;
+                }
+                alert("Gratulacje! Zdobyłeś punkty za ukończenie ćwiczeń!");
+                $('#exercise-container').removeClass('hidden');
+                $('#exercise-status').addClass('hidden');
+                updateStats();
+            });
+
+            updateStats();
+        });
+    </script>
+</body>
+
+</html>

@@ -44,32 +44,33 @@
             const monthName = ["Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec", "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"];
             const dayName = ["Pon", "Wto", "Śro", "Czw", "Pią", "Sob", "Nie"];
 
-            // Funkcja formatująca liczby (dodaje wiodące zera)
+            // Zapytaj o zgodę na powiadomienia
+            if (Notification.permission === "default") {
+                Notification.requestPermission();
+            }
+
             function padZero(value) {
                 return value.toString().padStart(2, '0');
             }
 
-            // Generowanie kalendarza
             function generateCalendar() {
                 const calendar = $('#calendar');
                 calendar.empty();
 
                 // Nagłówek kalendarza
                 calendar.append(`
-            <div class="calendar-header">
-                <div class="nav-btn" id="prev-month"><</div>
-                <div class="month-year">${monthName[month]} ${year}</div>
-                <div class="nav-btn" id="next-month">></div>
-            </div>
-        `);
+                <div class="calendar-header">
+                    <div class="nav-btn" id="prev-month"><</div>
+                    <div class="month-year">${monthName[month]} ${year}</div>
+                    <div class="nav-btn" id="next-month">></div>
+                </div>
+            `);
 
-                // Nazwy dni tygodnia
                 dayName.forEach((name, i) => {
                     let className = i === 5 ? 'saturday' : i === 6 ? 'sunday' : '';
                     calendar.append(`<div class="day-name ${className}">${name}</div>`);
                 });
 
-                // Pierwszy dzień miesiąca
                 let startDay = new Date(year, month, 1).getDay();
                 startDay = startDay === 0 ? 7 : startDay;
 
@@ -77,7 +78,6 @@
                     calendar.append(`<div class="none"></div>`);
                 }
 
-                // Dni w miesiącu
                 const maxDay = new Date(year, month + 1, 0).getDate();
                 for (let i = 1; i <= maxDay; i++) {
                     let dateString = `${year}-${padZero(month + 1)}-${padZero(i)}`;
@@ -92,16 +92,15 @@
                     let dayHtml = `<div class="${classes}" data-date="${dateString}">${i}`;
                     if (training) {
                         dayHtml += `
-                    <div class="training" style="cursor: pointer;" title="Kliknij, aby usunąć">
-                        ${training.type}
-                    </div>`;
+                        <div class="training" style="cursor: pointer;" title="Kliknij, aby usunąć">
+                            ${training.type}
+                        </div>`;
                     }
                     dayHtml += `</div>`;
                     calendar.append(dayHtml);
                 }
             }
 
-            // Obsługa nawigacji po miesiącach
             $('#calendar').on('click', '.nav-btn', function () {
                 if (this.id === "prev-month") {
                     month--;
@@ -113,20 +112,17 @@
                 generateCalendar();
             });
 
-            // Otwieranie formularza dodawania treningu
             $('#calendar').on('click', '.day', function () {
                 $('#training-form').removeClass('hidden');
                 $('#training-date').val($(this).data('date'));
             });
 
-            // Usuwanie treningu
             $('#calendar').on('click', '.training', function (e) {
-                e.stopPropagation(); // Zapobiega otwarciu formularza
+                e.stopPropagation();
                 const date = $(this).parent().data('date');
-                deleteTraining(date); // Usunięcie treningu
+                deleteTraining(date);
             });
 
-            // Zapisywanie treningu
             $('#training-form').submit(function (e) {
                 e.preventDefault();
                 const date = $('#training-date').val();
@@ -140,18 +136,56 @@
                 generateCalendar();
             });
 
-            // Funkcja usuwania treningu
             function deleteTraining(date) {
                 if (confirm("Czy na pewno chcesz usunąć trening z tego dnia?")) {
                     let trainings = JSON.parse(localStorage.getItem('trainings')) || [];
                     trainings = trainings.filter(t => t.date !== date);
                     localStorage.setItem('trainings', JSON.stringify(trainings));
-                    generateCalendar(); // Odświeżenie kalendarza
+                    generateCalendar();
+                }
+            }
+
+            function checkUpcomingTrainings() {
+                const trainings = JSON.parse(localStorage.getItem('trainings')) || [];
+                const today = new Date();
+                const tomorrow = new Date();
+                tomorrow.setDate(today.getDate() + 1);
+
+                const upcomingTrainings = trainings.filter(training => {
+                    const trainingDate = new Date(training.date);
+                    return (
+                        trainingDate.toDateString() === today.toDateString() ||
+                        trainingDate.toDateString() === tomorrow.toDateString()
+                    );
+                });
+
+                if (upcomingTrainings.length > 0) {
+                    upcomingTrainings.forEach(training => {
+                        showNotification(training);
+                    });
+                }
+            }
+
+            function showNotification(training) {
+                if (Notification.permission === "granted") {
+                    const options = {
+                        body: `Masz zaplanowany trening: ${training.type} na dzień ${training.date}`,
+                        icon: 'https://via.placeholder.com/100',
+                        vibrate: [200, 100, 200],
+                    };
+                    const notification = new Notification("Przypomnienie o treningu!", options);
+
+                    notification.onclick = () => {
+                        window.focus();
+                    };
                 }
             }
 
             generateCalendar();
+            checkUpcomingTrainings();
+            setInterval(checkUpcomingTrainings, 60 * 60 * 1000); // Sprawdzaj co godzinę
         });
+
 
     </script>
 

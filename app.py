@@ -118,6 +118,10 @@ def Calendar():
 def Notepad():
     return render_template('Notepad.html')
 
+# Codzienna motywacja/Ćwiczenia
+@app.route('/Daily_workout')
+def Daily_workout():
+    return render_template('Daily_workout.html')
 
 
 if __name__ == '__main__':
