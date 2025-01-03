@@ -123,6 +123,20 @@ def Notepad():
 def Daily_workout():
     return render_template('Daily_workout.html')
 
+#Moje dane
+@app.route('/myData')
+def MyData():
+    if 'user_name' not in session:
+        flash("Musisz być zalogowany, aby zobaczyć swoje dane.", "error")
+        return redirect(url_for('login'))
+
+    user = UserData.query.filter_by(first_name=session['user_name']).first()
+
+    if not user:
+        flash("Nie znaleziono danych użytkownika.", "error")
+        return redirect(url_for('main'))
+
+    return render_template('myData.html', user=user)
 
 if __name__ == '__main__':
     with app.app_context():

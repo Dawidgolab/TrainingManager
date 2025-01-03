@@ -120,13 +120,27 @@ body.break {
 
 #status {
     font-size: 2rem;
-    /* Większy rozmiar czcionki */
     text-align: center;
-    /* Wyrównanie tekstu do środka */
     margin-top: 20px;
-    /* Odstęp od zegara */
     color: #333;
-    /* Kolor tekstu */
     font-weight: bold;
-    /* Pogrubienie tekstu */
+
+}
+
+
+.btn {
+    background-color: #1e562b;
+    color: white;
+    border: none;
+    text-align: center;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    text-decoration: none;
+}
+
+.btn:hover {
+    background-color: #218838;
 }

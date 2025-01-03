@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moje Dane</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='myData.css') }}">
+</head>
+
+<body>
+    <div class="user-data-container">
+        <h2>Moje Dane</h2>
+        <div class="user-data">
+            <p><strong>Imię:</strong> {{ user.first_name }}</p>
+            <p><strong>Nazwisko:</strong> {{ user.last_name }}</p>
+            <p><strong>Wiek:</strong> {{ user.age }}</p>
+            <p><strong>Dyscyplina:</strong> {{ user.discipline }}</p>
+        </div>
+        <a href="{{ url_for('main') }}" class="btn">Powrót do głównej</a>
+    </div>
+</body>
+
+</html>
