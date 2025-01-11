@@ -1,9 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
-from models import db, UserData, UserCredentials
+from models import db, UserData, UserCredentials,Training
 from sqlalchemy.exc import SQLAlchemyError
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import Flask, render_template, request, redirect, url_for, session,flash  # Dodaj 'session'
-import os
+from flask_migrate import Migrate
 
 
 app = Flask(__name__)
@@ -17,6 +17,8 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Inicjalizacja bazy danych
 db.init_app(app)
+
+migrate = Migrate(app, db)
 
 # Główna strona
 @app.route('/')
@@ -40,22 +42,27 @@ def ask_details():
     if request.method == 'POST':
         user_data = request.form
         try:
-            # Dodaj dane użytkownika do tabeli UserData
-            new_user = UserData(
-                first_name=user_data.get("first-name"),
-                last_name=user_data.get("last-name"),
-                age=int(user_data.get("age")),
-                discipline=user_data.get("discipline"),
-            )
-            db.session.add(new_user)
-
             # Dodaj dane logowania do tabeli UserCredentials
             new_credentials = UserCredentials(
                 login=user_data.get("first-name"),
                 password_hash=generate_password_hash(user_data.get("password")),
             )
             db.session.add(new_credentials)
+            db.session.commit()
 
+            # Pobierz ID nowo dodanych danych logowania
+            credentials_id = new_credentials.id
+
+            # Dodaj dane użytkownika do tabeli UserData
+            new_user = UserData(
+                first_name=user_data.get("first-name"),
+                last_name=user_data.get("last-name"),
+                age=int(user_data.get("age")),
+                discipline=user_data.get("discipline"),
+                credentials_id=credentials_id,  # Przypisanie poprawnego credentials_id
+                level=1  # Ustaw domyślny poziom
+            )
+            db.session.add(new_user)
             db.session.commit()
 
             # Zapisz imię użytkownika w sesji
@@ -69,6 +76,7 @@ def ask_details():
             return "Wystąpił błąd podczas zapisywania danych. Sprawdź konsolę.", 500
 
     return render_template('ask_details.html')
+
 
 # Strona logowania
 @app.route('/login', methods=['GET', 'POST'])
@@ -119,9 +127,30 @@ def Notepad():
     return render_template('Notepad.html')
 
 # Codzienna motywacja/Ćwiczenia
-@app.route('/Daily_workout')
+@app.route('/Daily_workout', methods=['GET', 'POST'])
 def Daily_workout():
-    return render_template('Daily_workout.html')
+    if 'user_name' not in session:
+        flash("Musisz być zalogowany, aby korzystać z tej funkcji.", "error")
+        return redirect(url_for('login'))
+
+    user = UserData.query.filter_by(first_name=session['user_name']).first()
+
+    if request.method == 'POST':
+        # Przykładowa logika aktualizacji poziomu
+        points_gained = 10  # Punkty zdobyte za ukończenie treningu
+        points_for_next_level = 50  # Punkty wymagane do awansu na kolejny poziom
+
+        # Oblicz nowy poziom
+        if user:
+            user.level += points_gained // points_for_next_level  # Zwiększ poziom na podstawie punktów
+            db.session.commit()  # Zapisz zmiany w bazie danych
+
+        flash(f"Gratulacje! Twój nowy poziom to {user.level}.", "success")
+        return redirect(url_for('Daily_workout'))
+
+    return render_template('Daily_workout.html', user=user)
+
+
 
 #Moje dane
 @app.route('/myData')
@@ -136,7 +165,35 @@ def MyData():
         flash("Nie znaleziono danych użytkownika.", "error")
         return redirect(url_for('main'))
 
+    # Odśwież dane użytkownika w sesji
+    session['user_level'] = user.level
     return render_template('myData.html', user=user)
+
+
+
+@app.route('/update', methods=['POST'])
+def update_level():
+    if 'user_name' not in session:
+        return jsonify({"error": "User not logged in"}), 400
+
+    user_name = request.form.get('user_name')
+    new_level = request.form.get('level')
+
+    user = UserData.query.filter_by(first_name=user_name).first()
+
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
+    try:
+        # Zaktualizuj poziom użytkownika w bazie danych
+        user.level = new_level
+        db.session.commit()  # Zapisz zmiany w bazie danych
+        return jsonify({"message": "Level updated successfully"})
+    except SQLAlchemyError as e:
+        db.session.rollback()
+        return jsonify({"error": f"Database error: {str(e)}"}), 500
+
+
 
 if __name__ == '__main__':
     with app.app_context():

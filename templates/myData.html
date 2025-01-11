@@ -16,6 +16,7 @@
             <p><strong>Nazwisko:</strong> {{ user.last_name }}</p>
             <p><strong>Wiek:</strong> {{ user.age }}</p>
             <p><strong>Dyscyplina:</strong> {{ user.discipline }}</p>
+            <p><strong>Poziom:</strong> {{ user.level if user.level else "Nie ustawiono" }}</p>
         </div>
         <a href="{{ url_for('main') }}" class="btn">Powrót do głównej</a>
     </div>
