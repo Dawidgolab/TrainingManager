@@ -31,12 +31,3 @@ class UserCredentials(db.Model):
 
     def __repr__(self):
         return f"<UserCredentials {self.login}>"
-
-
-
-class Training(db.Model):
-    __tablename__ = 'trainings'
-    id = db.Column(db.Integer, primary_key=True)
-    date = db.Column(db.String(50), nullable=False)
-    type = db.Column(db.String(100), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user_credentials.id'))  # Klucz obcy

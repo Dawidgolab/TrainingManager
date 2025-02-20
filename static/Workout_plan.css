@@ -1,0 +1,96 @@
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(90deg, rgb(136, 131, 235) 35%, rgb(193, 235, 190) 96%);
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    /* Wyśrodkowanie w poziomie */
+    align-items: center;
+    /* Wyśrodkowanie w pionie */
+    min-height: 100vh;
+    /* Pozwala na przewijanie */
+    flex-direction: column;
+}
+
+.container {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    width: 100%;
+    max-width: 1200px;
+    /* Maksymalna szerokość kontenera */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 30px;
+    /* Dodanie marginesu górnego */
+}
+
+h2 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+}
+
+.btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    padding: 15px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 10px;
+    transition: background-color 0.3s;
+    width: 100%;
+}
+
+.btn:hover {
+    background-color: #218838;
+}
+
+.hidden {
+    display: none;
+}
+
+#exercise-plan {
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #d4edda;
+    border-radius: 5px;
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 20px;
+    overflow-x: auto;
+    justify-content: space-evenly;
+}
+
+.day-plan {
+    min-width: 220px;
+    max-width: 450px;
+    flex: 1;
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+h4 {
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+#exercise-list {
+    list-style-type: none;
+    padding: 0;
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+#exercise-list li {
+    margin-bottom: 10px;
+}

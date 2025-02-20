@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plan Treningowy</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='Workout_plan.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Wygeneruj Plan Treningowy</h2>
+        <button id="generate-plan" class="btn">Sporty Chwytane</button>
+
+        <div id="exercise-plan" class="hidden">
+            <div id="exercise-list"></div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $("#generate-plan").click(function () {
+                $.ajax({
+                    url: "/get_exercises",
+                    method: "GET",
+                    success: function (data) {
+                        // Podziel ćwiczenia na dni tygodnia (po 8 ćwiczeń na dzień)
+                        const daysOfWeek = ["Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota", "Niedziela"];
+                        const exercisesPerDay = [];
+                        let exercisesIndex = 0;
+                        const exercisesPerDayLimit = 8;  // 8 ćwiczeń na każdy dzień
+
+                        // Funkcja losująca czas wykonania
+                        function generateRandomTime() {
+                            const repetitions = Math.floor(Math.random() * (5 - 2 + 1)) + 2;  // Od 2 do 5 powtórzeń
+                            const duration = Math.floor(Math.random() * (6 - 2 + 1)) + 2;  // Wybieramy od 2 do 6 dla liczby pełnych dziesiątek
+                            const timeInSeconds = duration * 10;  // Czas w sekundach kończący się na 0
+                            return `${repetitions} razy po ${timeInSeconds} sekund`;
+                        }
+
+                        // Przydziel ćwiczenia na dni tygodnia (po 8 ćwiczeń na dzień)
+                        for (let i = 0; i < 7; i++) {
+                            exercisesPerDay[i] = [];
+                            for (let j = 0; j < exercisesPerDayLimit; j++) {
+                                if (exercisesIndex < data.length) {
+                                    let exercise = { ...data[exercisesIndex] };  // Kopiowanie ćwiczenia
+                                    exercise.time = generateRandomTime();  // Dodanie losowego czasu
+                                    exercisesPerDay[i].push(exercise);
+                                    exercisesIndex++;
+                                } else {
+                                    // Jeśli brakuje ćwiczeń, zaczynamy od nowa
+                                    exercisesIndex = 0;
+                                    let exercise = { ...data[exercisesIndex] };
+                                    exercise.time = generateRandomTime();
+                                    exercisesPerDay[i].push(exercise);
+                                    exercisesIndex++;
+                                }
+                            }
+                        }
+
+                        // W niedzielę jest dzień wolny
+                        exercisesPerDay[6] = "Wolne";
+
+                        // Czyść listę ćwiczeń
+                        $("#exercise-list").empty();
+
+                        // Wyświetl ćwiczenia na każdy dzień tygodnia
+                        exercisesPerDay.forEach(function (exercises, index) {
+                            let dayPlan = `<div class="day-plan"><h4>${daysOfWeek[index]}</h4><ul>`;
+
+                            if (exercises === "Wolne") {
+                                dayPlan += `<li>Dzień wolny!</li>`;
+                            } else {
+                                exercises.forEach(function (exercise) {
+                                    dayPlan += `<li>${exercise.name} - ${exercise.time}</li>`; // Wyświetlanie nazwy ćwiczenia i czasu
+                                });
+                            }
+
+                            dayPlan += "</ul></div>";
+                            $("#exercise-list").append(dayPlan);
+                        });
+
+                        $("#exercise-plan").removeClass("hidden"); // Pokazujemy plan
+                    },
+                    error: function () {
+                        alert("Błąd podczas pobierania ćwiczeń!");
+                    }
+                });
+            });
+        });
+    </script>
+
+</body>
+
+</html>

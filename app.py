@@ -1,10 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
-from models import db, UserData, UserCredentials,Training
+from models import db, UserData, UserCredentials
 from sqlalchemy.exc import SQLAlchemyError
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import Flask, render_template, request, redirect, url_for, session,flash  # Dodaj 'session'
 from flask_migrate import Migrate
-
+import random
+import json
 
 app = Flask(__name__)
 
@@ -104,6 +105,34 @@ def login():
 @app.route('/main')
 def main():
     return render_template('main.html')
+
+
+
+
+
+# Wczytaj dane ćwiczeń z pliku JSON
+with open("Exercises.json", encoding="utf-8") as f:
+    exercises_data = json.load(f)
+
+# Strona z generowaniem planów treningowych
+@app.route('/Workout_plan')
+def workout_plan():
+    return render_template('Workout_plan.html')
+
+
+@app.route('/get_exercises', methods=['GET'])
+def get_exercises():
+    filtered_exercises = [ex for ex in exercises_data["exercises"] if ex["discipline"] == "chwytane"]
+    
+    if not filtered_exercises:
+        return jsonify({"error": "Brak ćwiczeń dla tej kategorii"}), 404
+    
+    selected_exercises = random.sample(filtered_exercises, min(len(filtered_exercises), 5))
+    
+    return jsonify(selected_exercises)
+
+
+
 
 
 # strona z boxing timer
