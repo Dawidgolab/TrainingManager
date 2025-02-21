@@ -13,76 +13,21 @@ body {
 
 body {
     font-family: 'Arial', sans-serif;
-    background: linear-gradient(90deg, rgba(17, 114, 176, 1) 35%, rgba(33, 230, 18, 1) 96%);
-    color: #333;
+    background: linear-gradient(135deg, #0a0a0a, #1b3a4b);
+    /* Ciemne tło */
+    color: #fff;
     line-height: 1.6;
     display: flex;
-    /* Flexbox dla łatwego ustawienia głównych elementów */
     flex-direction: column;
-}
-
-/* Sekcje */
-.hero {
-    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-        url('https://images.unsplash.com/photo-1549366029-8db7a8e2b5f5') no-repeat center center/cover;
-    height: 100vh;
-    /* Zajmuje pełny ekran */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
-    color: white;
-    text-align: center;
-    padding: 20px;
-}
-
-.hero h1 {
-    font-size: 3rem;
-    margin-bottom: 20px;
-    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
-}
-
-.hero p {
-    font-size: 1.2rem;
-    margin-bottom: 40px;
-    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
-}
-
-.button-container {
-    display: flex;
-    gap: 20px;
     justify-content: center;
+    text-align: center;
 }
 
-.cta-button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 15px 30px;
-    border-radius: 5px;
-    font-size: 1.2rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.cta-button:hover {
-    background-color: #45a049;
-}
-
-.cta-button.secondary {
-    background-color: #f1f1f1;
-    color: #333;
-}
-
-.cta-button.secondary:hover {
-    background-color: #ddd;
-}
-
-/* Sekcja funkcji */
+/* Sekcja Funkcji */
 .features {
     flex-grow: 1;
     /* Sekcja rozciąga się, aby wypełnić ekran */
-    background-color: linear-gradient(90deg, rgba(17, 114, 176, 1) 35%, rgba(33, 230, 18, 1) 96%);
     padding: 50px 20px;
     text-align: center;
 }
@@ -100,13 +45,17 @@ body {
 }
 
 .feature-card {
-    background-color: #f9f9f9;
-    width: 250px;
+    background-color: #333;
+    /* Ciemne tło */
+    width: 30%;
+    /* Zmieniamy szerokość na 30% */
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     text-align: center;
     transition: transform 0.3s ease;
+    margin-bottom: 20px;
+    /* Dodajemy przestrzeń na dole */
 }
 
 .feature-card:hover {
@@ -126,19 +75,85 @@ body {
 
 .feature-card p {
     font-size: 1rem;
-    color: #555;
+    color: #ddd;
+}
+
+/* Media query dla mniejszych ekranów */
+@media (max-width: 768px) {
+    .feature-card {
+        width: 100%;
+        /* Karty zajmują całą szerokość na mniejszych ekranach */
+    }
+}
+
+/* Sekcja Hero */
+.hero {
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+        url('https://images.unsplash.com/photo-1549366029-8db7a8e2b5f5') no-repeat center center/cover;
+    height: 100vh;
+    /* Zajmuje pełny ekran */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    padding: 20px;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 40px;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+}
+
+/* Sekcja button-container */
+.button-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.cta-button {
+    background-color: rgba(255, 255, 255, 0.549);
+    /* Zielony */
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: #354389;
+}
+
+.cta-button.secondary {
+    background-color: rgba(255, 255, 255, 0.2);
+    /* Przezroczysty z białymi akcentami */
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.cta-button.secondary:hover {
+    background-color: rgba(255, 255, 255, 0.3);
 }
 
 /* Stopka */
 footer {
-    background-color: #4CAF50;
+    background-color: #1b3a4b;
+    /* Ciemne tło */
     color: white;
+    margin-top: 52px;
     padding: 10px 0;
     text-align: center;
     flex-shrink: 0;
-    /* Zapobiega zwijaniu stopki */
-}
-
-footer p {
-    font-size: 1rem;
+    width: 100%;
 }

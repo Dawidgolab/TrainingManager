@@ -5,78 +5,126 @@
     box-sizing: border-box;
 }
 
+html,
+body {
+    height: 100%;
+    /* Gwarancja pełnej wysokości */
+}
+
 body {
     font-family: 'Arial', sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #1b3a4b, #3e3e3efb, #1b3a4b);
+
+    color: #fff;
+    line-height: 1.6;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    height: 100vh;
-    /* Cała wysokość ekranu */
-    margin: 0;
-}
-
-form {
-    background: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
+    justify-content: flex-start;
+    /* Ustawienie zawartości na górze */
     text-align: center;
+    min-height: 100%;
+    /* Upewnij się, że body zajmuje całą dostępną wysokość */
 }
 
+/* Formularz */
+form {
+    background: rgba(0, 0, 0, 0.7);
+    /* Lekka przezroczystość na ciemnym tle */
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 600px;
+    height: 50%;
+    margin-top: 10%;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+form:hover {
+    transform: translateY(-5px);
+    /* Efekt podniesienia formularza */
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Nagłówek formularza */
 h1 {
     font-size: 2rem;
-    color: #4CAF50;
+    color: #5289b6;
+    /* Niebieski akcent */
     margin-bottom: 20px;
+    font-weight: 600;
 }
 
+/* Etykiety pól */
 label {
     display: block;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     text-align: left;
+    color: #ddd;
+    /* Jaśniejsze etykiety */
 }
 
+/* Pola tekstowe */
 input[type="text"],
 input[type="password"] {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    border: 1px solid #555;
+    border-radius: 6px;
     font-size: 1rem;
+    background-color: #333;
+    /* Ciemne tło dla pól */
+    color: #fff;
+    /* Jasny tekst */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* Fokussowanie na polach tekstowych */
 input[type="text"]:focus,
 input[type="password"]:focus {
-    border-color: #4CAF50;
+    border-color: #2196F3;
+    /* Niebieska ramka */
     outline: none;
-    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+    box-shadow: 0 0 8px rgba(33, 150, 243, 0.4);
+    /* Niebieski cień po najechaniu */
 }
 
+/* Przycisk */
 button {
-    background-color: #4CAF50;
+    background-color: #408ecd;
+    /* Niebieski przycisk */
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-size: 1rem;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 1.1rem;
     cursor: pointer;
+    margin-top: 80px;
     width: 100%;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #134d87;
+    /* Jaśniejszy niebieski przy najechaniu */
+    transform: scale(1.05);
+    /* Efekt powiększenia przy najechaniu */
 }
 
+/* Stopka */
 footer {
-    margin-top: 20px;
-    font-size: 0.9rem;
-    color: #666;
+    background-color: #1b3a4b;
+    /* Ciemne tło */
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+    flex-shrink: 0;
+    /* Zapobiega zwijaniu stopki */
 }
 
 /* Flash Messages */
@@ -87,12 +135,18 @@ footer {
 
 .message-box {
     padding: 15px;
-    border-radius: 5px;
+    border-radius: 8px;
     font-size: 1rem;
     margin: 10px 0;
     max-width: 400px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.message-box:hover {
+    transform: translateY(-5px);
+    /* Efekt podniesienia komunikatów */
 }
 
 /* Komunikaty o błędach */
@@ -107,4 +161,15 @@ footer {
     background-color: #d4edda;
     color: #155724;
     border: 1px solid #c3e6cb;
+}
+
+footer {
+    background: linear-gradient(135deg, #0a0a0a, #1b3a4b, #0a0a0a);
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+    width: 100%;
+    /* Dodajemy na koniec */
+    margin-top: auto;
+    /* Przenosi stopkę na sam dół */
 }

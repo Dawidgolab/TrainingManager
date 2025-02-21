@@ -4,26 +4,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TreningManager</title>
+    <title>TrainingManager</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='/styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <div class="hero">
         <div class="hero-content">
-            <h1>Witaj w aplikacji TrainingManager!</h1>
-            <p>Zarządzaj swoimi treningami i osiągaj cele szybciej niż inni.</p>
+            <div class="logo-container">
+                <div class="logo-circle">
+                    <img src="{{ url_for('static', filename='Images/myProject.jpg') }}" alt="Training Icon">
+                </div>
+            </div>
+            <h1>Welcome to <span>TrainingManager!</span></h1>
+            <p>Manage your workouts and reach your goals faster.</p>
             <div class="button-container">
-                <button class="cta-button third" onclick="window.location.href='{{ url_for('Login') }}'">Zaloguj się
-                    <button class="cta-button" onclick="window.location.href='{{ url_for('ask_details') }}'">Jesteś
-                        nowy, kliknij tutaj
-                        <button class="cta-button secondary" onclick="window.location.href='{{ url_for('about') }}'">O
-                            aplikacji</button>
+                <button class="cta-button" onclick="window.location.href='{{ url_for('Login') }}'">Login</button>
+                <button class="cta-button secondary"
+                    onclick="window.location.href='{{ url_for('ask_details') }}'">Create Account</button>
+            </div>
+            <div class="extra-buttons">
+                <button class="cta-button outline" onclick="window.location.href='{{ url_for('about') }}'">Learn
+                    More</button>
             </div>
         </div>
     </div>
     <footer>
-        <p>&copy; 2024 TreningManager - Wszystkie prawa zastrzeżone</p>
+        <p>&copy; 2024 TrainingManager - All rights reserved.</p>
     </footer>
 </body>
 
