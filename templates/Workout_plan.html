@@ -16,11 +16,15 @@
 
         <div id="exercise-plan" class="hidden">
             <div id="exercise-list"></div>
+            <!-- Przycisk pobierania planu jest ukryty na początku -->
+            <button id="download-plan" class="btn" style="display:none;">Pobierz Plan</button>
         </div>
     </div>
 
     <script>
         $(document).ready(function () {
+            let generatedPlan = [];
+
             $("#generate-plan").click(function () {
                 $.ajax({
                     url: "/get_exercises",
@@ -82,12 +86,40 @@
                             $("#exercise-list").append(dayPlan);
                         });
 
+                        generatedPlan = exercisesPerDay;
+
                         $("#exercise-plan").removeClass("hidden"); // Pokazujemy plan
+
+                        // Po wygenerowaniu planu, pokazujemy przycisk pobierania
+                        $("#download-plan").show();
                     },
                     error: function () {
                         alert("Błąd podczas pobierania ćwiczeń!");
                     }
                 });
+            });
+
+            // Funkcja pobierania planu
+            $("#download-plan").click(function () {
+                let planText = "";
+
+                generatedPlan.forEach(function (dayPlan, index) {
+                    planText += `<h4>${["Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota", "Niedziela"][index]}</h4>`;
+                    if (dayPlan === "Wolne") {
+                        planText += "Dzień wolny!\n";
+                    } else {
+                        dayPlan.forEach(function (exercise) {
+                            planText += `${exercise.name} - ${exercise.time}\n`;
+                        });
+                    }
+                    planText += "\n";
+                });
+
+                const blob = new Blob([planText], { type: "text/plain;charset=utf-8" });
+                const link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+                link.download = "plan_treningowy.txt";
+                link.click();
             });
         });
     </script>

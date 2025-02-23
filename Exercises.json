@@ -540,5 +540,95 @@
             "type": "interwały",
             "discipline": "chwytane"
         }
+        {
+            "id": 91,
+            "name": "Martwy ciąg",
+            "type": "siłowe",
+            "discipline": "chwytane"
+        },
+        {
+            "id": 92,
+            "name": "Przysiady ze sztangą",
+            "type": "siłowe",
+            "discipline": "chwytane i uderzane"
+        },
+        {
+            "id": 93,
+            "name": "Wyciskanie sztangi na ławce poziomej",
+            "type": "siłowe",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 94,
+            "name": "Podciąganie na drążku",
+            "type": "siłowe",
+            "discipline": "chwytane"
+        },
+        {
+            "id": 95,
+            "name": "Wiosłowanie hantlami",
+            "type": "siłowe",
+            "discipline": "chwytane"
+        },
+        {
+            "id": 96,
+            "name": "Wyciskanie hantli nad głowę",
+            "type": "siłowe",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 97,
+            "name": "Rwanie kettlebell",
+            "type": "siłowe",
+            "discipline": "chwytane i uderzane"
+        },
+        {
+            "id": 98,
+            "name": "Zerwanie sztangi",
+            "type": "siłowe",
+            "discipline": "chwytane i uderzane"
+        },
+        {
+            "id": 99,
+            "name": "Wykroki ze sztangą",
+            "type": "siłowe",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 100,
+            "name": "Ćwiczenia na chwyt ze sztangą",
+            "type": "siłowe",
+            "discipline": "chwytane"
+        },
+        {
+            "id": 101,
+            "name": "Swing kettlebell",
+            "type": "siłowe",
+            "discipline": "chwytane i uderzane"
+        },
+        {
+            "id": 102,
+            "name": "Uginanie ramion ze sztangą",
+            "type": "siłowe",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 103,
+            "name": "Prostowanie ramion z hantlami",
+            "type": "siłowe",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 104,
+            "name": "Spacer farmera z kettlebell",
+            "type": "siłowe",
+            "discipline": "chwytane"
+        },
+        {
+            "id": 105,
+            "name": "Turkish get-up",
+            "type": "siłowe",
+            "discipline": "chwytane i uderzane"
+        }
     ]
 }
