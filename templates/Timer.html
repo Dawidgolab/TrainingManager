@@ -6,16 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Timer Bokserski</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='Timer.css') }}">
-
 </head>
 
 <body>
-
     <div class="hero">
         <h1>Boxing Timer</h1>
         <p id="big-timer">00:00</p>
-        <p id="status">Runda 1 - Ćwiczenia</p> <!-- Status będzie wyświetlany pod zegarem -->
-        <button type="button" id="start-button">Rozpocznij Trening</button>
+        <p id="status">Runda 1 - Ćwiczenia</p>
+        <div class="button-container">
+            <button type="button" id="start-button">Start</button>
+            <button type="button" id="stop-button" disabled>Stop</button>
+            <button type="button" id="reset-button">Reset</button>
+        </div>
     </div>
 
     <div class="features">
@@ -40,41 +42,32 @@
     </footer>
 
     <script>
-        let timerInterval;
-        let isTimerRunning = false; // Flaga wskazująca, czy timer jest uruchomiony
-        let currentRound;
-        let timeLeft;
-        let isExercise;
-        let rounds, exerciseTime, breakTime; // Przechowujemy wartości z formularza
+        let timerInterval, isRunning = false, currentRound, timeLeft, isExercise;
+        let rounds, exerciseTime, breakTime;
         const bigTimer = document.getElementById('big-timer');
         const status = document.getElementById('status');
         const startButton = document.getElementById('start-button');
-        const ding = new Audio('./media/button-10.wav'); // Ścieżka do dźwięku
+        const stopButton = document.getElementById('stop-button');
+        const resetButton = document.getElementById('reset-button');
+        const ding = new Audio('./media/button-10.wav');
 
-        const updateBigTimer = () => {
+        function updateBigTimer() {
             bigTimer.textContent = `${Math.floor(timeLeft / 60)}:${String(timeLeft % 60).padStart(2, '0')}`;
-        };
+        }
 
-        const updateStatus = () => {
-            if (isExercise) {
-                status.textContent = `Runda ${currentRound} - Ćwiczenia`;
-            } else {
-                status.textContent = `Przerwa - Runda ${currentRound}`;
-            }
-        };
+        function updateStatus() {
+            status.textContent = isExercise ? `Runda ${currentRound} - Ćwiczenia` : `Przerwa - Runda ${currentRound}`;
+        }
 
-        // Funkcja startująca timer
-        const startTimer = () => {
-            // Funkcja uruchamiająca timer
+        function startTimer() {
             timerInterval = setInterval(() => {
                 updateBigTimer();
                 updateStatus();
 
                 if (timeLeft === 0) {
-                    ding.play(); // Odtwarzaj dźwięk przy każdej zmianie
-
+                    ding.play();
                     if (isExercise) {
-                        document.body.classList.add('break'); // Możesz dodać klasę CSS do zmiany koloru w przerwie
+                        document.body.classList.add('break');
                         timeLeft = breakTime;
                         isExercise = false;
                     } else {
@@ -83,8 +76,9 @@
                             clearInterval(timerInterval);
                             status.textContent = 'Trening zakończony!';
                             bigTimer.textContent = '00:00';
-                            startButton.textContent = 'Rozpocznij Trening';
-                            isTimerRunning = false;
+                            isRunning = false;
+                            startButton.disabled = false;
+                            stopButton.disabled = true;
                             return;
                         }
                         currentRound++;
@@ -95,36 +89,44 @@
                     timeLeft--;
                 }
             }, 1000);
+            isRunning = true;
+            startButton.disabled = true;
+            stopButton.disabled = false;
+        }
 
-            startButton.textContent = 'Stop'; // Zmiana tekstu na "Stop"
-        };
-
-        // Funkcja zatrzymująca timer
-        const stopTimer = () => {
+        function stopTimer() {
             clearInterval(timerInterval);
-            startButton.textContent = 'Wznów Trening'; // Zmiana tekstu na "Wznów Trening"
-            isTimerRunning = false;
-        };
+            isRunning = false;
+            startButton.disabled = false;
+            stopButton.disabled = true;
+        }
 
-        document.getElementById('start-button').addEventListener('click', () => {
-            // Pobieramy wartości z formularza
+        function resetTimer() {
+            clearInterval(timerInterval);
             rounds = parseInt(document.getElementById('rounds').value, 10);
             exerciseTime = parseInt(document.getElementById('exercise-time').value, 10);
             breakTime = parseInt(document.getElementById('break-time').value, 10);
+            currentRound = 1;
+            timeLeft = exerciseTime;
+            isExercise = true;
+            updateBigTimer();
+            updateStatus();
+            isRunning = false;
+            startButton.disabled = false;
+            stopButton.disabled = true;
+        }
 
-            // Jeśli timer nie działa, rozpoczynamy trening
-            if (!isTimerRunning) {
-                currentRound = 1;
-                timeLeft = exerciseTime;
-                isExercise = true;
+        startButton.addEventListener('click', () => {
+            if (!isRunning) {
                 startTimer();
-                isTimerRunning = true;
-            } else {
-                stopTimer();
             }
         });
-    </script>
 
+        stopButton.addEventListener('click', stopTimer);
+        resetButton.addEventListener('click', resetTimer);
+
+        resetTimer();
+    </script>
 </body>
 
 </html>

@@ -117,6 +117,7 @@ body {
     display: flex;
     gap: 20px;
     justify-content: center;
+    margin-bottom: 40px;
 }
 
 .cta-button {
@@ -148,12 +149,10 @@ body {
 
 /* Stopka */
 footer {
-    background-color: #1b3a4b;
-    /* Ciemne tło */
+    background: linear-gradient(135deg, #0a0a0a, #1b3a4b, #0a0a0a);
     color: white;
-    margin-top: 52px;
-    padding: 10px 0;
+    padding: 15px 0;
     text-align: center;
-    flex-shrink: 0;
     width: 100%;
+    margin-top: auto;
 }
