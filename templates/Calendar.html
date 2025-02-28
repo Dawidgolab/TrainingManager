@@ -29,9 +29,6 @@
             </form>
         </div>
         <a href="{{ url_for('main') }}" class="btn">Powrót do głównej</a>
-        <footer>
-            <p>&copy; 2024 Kalendarz Treningowy - Wszystkie prawa zastrzeżone</p>
-        </footer>
     </div>
 
     <script>
@@ -41,17 +38,8 @@
             let year = date.getFullYear();
             let day = date.getDate();
 
-            const monthName = ["Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec", "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"];
-            const dayName = ["Pon", "Wto", "Śro", "Czw", "Pią", "Sob", "Nie"];
-
-            // Zapytaj o zgodę na powiadomienia
-            if (Notification.permission === "default") {
-                Notification.requestPermission();
-            }
-
-            function padZero(value) {
-                return value.toString().padStart(2, '0');
-            }
+            const monthNames = ["Styczeń", "Luty", "Marzec", "Kwiecień", "Maj", "Czerwiec", "Lipiec", "Sierpień", "Wrzesień", "Październik", "Listopad", "Grudzień"];
+            const dayNames = ["Pon", "Wto", "Śro", "Czw", "Pią", "Sob", "Nie"];
 
             function generateCalendar() {
                 const calendar = $('#calendar');
@@ -59,42 +47,40 @@
 
                 // Nagłówek kalendarza
                 calendar.append(`
-                <div class="calendar-header">
-                    <div class="nav-btn" id="prev-month"><</div>
-                    <div class="month-year">${monthName[month]} ${year}</div>
-                    <div class="nav-btn" id="next-month">></div>
-                </div>
-            `);
+                    <div class="calendar-header">
+                        <button class="nav-btn" id="prev-month">&lt;</button>
+                        <div class="month-year">${monthNames[month]} ${year}</div>
+                        <button class="nav-btn" id="next-month">&gt;</button>
+                    </div>
+                `);
 
-                dayName.forEach((name, i) => {
+                // Dni tygodnia
+                dayNames.forEach((name, i) => {
                     let className = i === 5 ? 'saturday' : i === 6 ? 'sunday' : '';
                     calendar.append(`<div class="day-name ${className}">${name}</div>`);
                 });
 
-                let startDay = new Date(year, month, 1).getDay();
-                startDay = startDay === 0 ? 7 : startDay;
+                let firstDay = new Date(year, month, 1).getDay();
+                firstDay = firstDay === 0 ? 7 : firstDay;
 
-                for (let i = 1; i < startDay; i++) {
+                for (let i = 1; i < firstDay; i++) {
                     calendar.append(`<div class="none"></div>`);
                 }
 
-                const maxDay = new Date(year, month + 1, 0).getDate();
-                for (let i = 1; i <= maxDay; i++) {
-                    let dateString = `${year}-${padZero(month + 1)}-${padZero(i)}`;
+                const daysInMonth = new Date(year, month + 1, 0).getDate();
+                for (let i = 1; i <= daysInMonth; i++) {
+                    let dateString = `${year}-${(month + 1).toString().padStart(2, '0')}-${i.toString().padStart(2, '0')}`;
                     const trainings = JSON.parse(localStorage.getItem('trainings')) || [];
                     const training = trainings.find(t => t.date === dateString);
-
                     let classes = "day";
+
                     if (i === day && month === new Date().getMonth() && year === new Date().getFullYear()) {
                         classes += " today";
                     }
 
                     let dayHtml = `<div class="${classes}" data-date="${dateString}">${i}`;
                     if (training) {
-                        dayHtml += `
-                        <div class="training" style="cursor: pointer;" title="Kliknij, aby usunąć">
-                            ${training.type}
-                        </div>`;
+                        dayHtml += `<div class="training" title="Kliknij, aby usunąć">${training.type}</div>`;
                     }
                     dayHtml += `</div>`;
                     calendar.append(dayHtml);
@@ -119,76 +105,32 @@
 
             $('#calendar').on('click', '.training', function (e) {
                 e.stopPropagation();
-                const date = $(this).parent().data('date');
-                deleteTraining(date);
+                if (confirm("Czy chcesz usunąć ten trening?")) {
+                    let trainings = JSON.parse(localStorage.getItem('trainings')) || [];
+                    trainings = trainings.filter(t => t.date !== $(this).parent().data('date'));
+                    localStorage.setItem('trainings', JSON.stringify(trainings));
+                    generateCalendar();
+                }
             });
 
             $('#training-form').submit(function (e) {
                 e.preventDefault();
                 const date = $('#training-date').val();
                 const type = $('#training-type').val();
-
                 let trainings = JSON.parse(localStorage.getItem('trainings')) || [];
                 trainings.push({ date, type });
                 localStorage.setItem('trainings', JSON.stringify(trainings));
-
                 $('#training-form').addClass('hidden');
                 generateCalendar();
             });
 
-            function deleteTraining(date) {
-                if (confirm("Czy na pewno chcesz usunąć trening z tego dnia?")) {
-                    let trainings = JSON.parse(localStorage.getItem('trainings')) || [];
-                    trainings = trainings.filter(t => t.date !== date);
-                    localStorage.setItem('trainings', JSON.stringify(trainings));
-                    generateCalendar();
-                }
-            }
-
-            function checkUpcomingTrainings() {
-                const trainings = JSON.parse(localStorage.getItem('trainings')) || [];
-                const today = new Date();
-                const tomorrow = new Date();
-                tomorrow.setDate(today.getDate() + 1);
-
-                const upcomingTrainings = trainings.filter(training => {
-                    const trainingDate = new Date(training.date);
-                    return (
-                        trainingDate.toDateString() === today.toDateString() ||
-                        trainingDate.toDateString() === tomorrow.toDateString()
-                    );
-                });
-
-                if (upcomingTrainings.length > 0) {
-                    upcomingTrainings.forEach(training => {
-                        showNotification(training);
-                    });
-                }
-            }
-
-            function showNotification(training) {
-                if (Notification.permission === "granted") {
-                    const options = {
-                        body: `Masz zaplanowany trening: ${training.type} na dzień ${training.date}`,
-                        icon: 'https://via.placeholder.com/100',
-                        vibrate: [200, 100, 200],
-                    };
-                    const notification = new Notification("Przypomnienie o treningu!", options);
-
-                    notification.onclick = () => {
-                        window.focus();
-                    };
-                }
-            }
-
             generateCalendar();
-            checkUpcomingTrainings();
-            setInterval(checkUpcomingTrainings, 60 * 60 * 1000); // Sprawdzaj co godzinę
         });
-
-
     </script>
 
+    <footer>
+        <p>&copy; 2024 Kalendarz Treningowy - Wszystkie prawa zastrzeżone</p>
+    </footer>
 </body>
 
 </html>
