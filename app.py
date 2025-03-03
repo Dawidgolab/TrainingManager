@@ -1,11 +1,14 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
-from models import db, UserData, UserCredentials
+from models import db, UserData, UserCredentials, CalendarWorkout
 from sqlalchemy.exc import SQLAlchemyError
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import Flask, render_template, request, redirect, url_for, session,flash  # Dodaj 'session'
 from flask_migrate import Migrate
 import random
 import json
+###########################################################################################
+
+
 
 app = Flask(__name__)
 
@@ -21,19 +24,70 @@ db.init_app(app)
 
 migrate = Migrate(app, db)
 
+###########################################################################################
+@app.route('/add_training', methods=['POST'])
+def add_training():
+    if 'user_name' not in session:
+        flash("Musisz być zalogowany, aby zapisać trening.", "error")
+        return redirect(url_for('login'))
+
+    user = UserData.query.filter_by(first_name=session['user_name']).first()
+
+    if not user:
+        flash("Nie znaleziono danych użytkownika.", "error")
+        return redirect(url_for('main'))
+
+    training_date = request.form.get('training-date')
+    training_type = request.form.get('training-type')
+
+    # Debugowanie: Wypisanie danych otrzymanych z formularza
+    print(f"Training Date: {training_date}, Training Type: {training_type}")
+
+    # Sprawdzenie, czy trening już istnieje na wybrany dzień
+    existing_training = CalendarWorkout.query.filter_by(user_id=user.id, date_workout=training_date).first()
+    if existing_training:
+        flash("Trening na tę datę już istnieje!", "error")
+        return redirect(url_for('Calendar'))
+
+    new_training = CalendarWorkout(
+        user_id=user.id,
+        date_workout=training_date,
+        note=training_type
+    )
+
+    try:
+        db.session.add(new_training)
+        db.session.commit()
+        flash("Trening zapisany!", "success")
+    except SQLAlchemyError as e:
+        db.session.rollback()  # Rollback in case of error
+        flash("Wystąpił błąd podczas zapisywania treningu.", "error")
+        print(f"Error: {str(e)}")
+
+    return redirect(url_for('Calendar'))
+
+###########################################################################################
+
 # Główna strona
 @app.route('/')
 def index():
     return render_template('index.html')
+
+###########################################################################################
 
 # Strona "O aplikacji"
 @app.route('/about')
 def about():
     return render_template('about.html')
 
+###########################################################################################
+
 @app.route('/Login')
 def Login():
     return render_template('Login.html')
+
+###########################################################################################
+
 
 # Dodaj klucz sesji
 app.secret_key = 'your_secret_key'  # Powinien być losowy i trudny do odgadnięcia
@@ -78,6 +132,7 @@ def ask_details():
 
     return render_template('ask_details.html')
 
+###########################################################################################
 
 # Strona logowania
 @app.route('/login', methods=['GET', 'POST'])
@@ -101,18 +156,22 @@ def login():
     return render_template('login.html')
 
 
+###########################################################################################
+
 # Strona główna po zalogowaniu
 @app.route('/main')
 def main():
     return render_template('main.html')
 
-
+###########################################################################################
 
 
 
 # Wczytaj dane ćwiczeń z pliku JSON
 with open("Exercises.json", encoding="utf-8") as f:
     exercises_data = json.load(f)
+
+###########################################################################################
 
 # Strona z generowaniem planów treningowych
 @app.route('/Workout_plan')
@@ -132,28 +191,116 @@ def get_exercises():
     return jsonify(selected_exercises)
 
 
-
+###########################################################################################
 
 
 # strona z boxing timer
 @app.route('/Timer')
 def boxing_timer():
     return render_template('Timer.html')
+###########################################################################################
 
 #strona z BMI i zapotrzebowaniem kalorycznym 
 @app.route('/BMI')
 def BMI():
     return render_template('BMI.html')
 
+###########################################################################################
 #strona z Kalendarzem
+
+
 @app.route('/Calendar')
 def Calendar():
-    return render_template('Calendar.html')
+    if 'user_name' not in session:
+        flash("Musisz być zalogowany, aby zobaczyć kalendarz.", "error")
+        return redirect(url_for('login'))
+
+    # Pobierz użytkownika na podstawie loginu
+    user = UserData.query.filter_by(first_name=session['user_name']).first()
+
+    if user:
+        # Pobierz wszystkie zapisane treningi dla tego użytkownika
+        workouts = CalendarWorkout.query.filter_by(user_id=user.id).all()
+
+        # Zamień obiekty CalendarWorkout na listę słowników z datami i notatkami
+        workout_dates = [{"date_workout": workout.date_workout, "note": workout.note} for workout in workouts]
+
+        return render_template('Calendar.html', workouts=workout_dates)
+    else:
+        flash("Nie znaleziono użytkownika.", "error")
+        return redirect(url_for('login'))
+
+
+
+
+
+def save_training():
+    if 'user_name' not in session:
+        flash("Musisz być zalogowany, aby dodać trening.", "error")
+        return redirect(url_for('login'))
+
+    # Pobierz dane z formularza
+    training_date = request.form['training_date']
+    training_type = request.form['training_type']
+
+    # Pobierz użytkownika na podstawie loginu
+    user = UserData.query.filter_by(first_name=session['user_name']).first()
+
+    if user:
+        # Zapisz trening w bazie danych
+        new_training = CalendarWorkout(
+            user_id=user.id,
+            date_workout=training_date,
+            note=training_type
+        )
+        db.session.add(new_training)
+        db.session.commit()
+
+        flash("Trening został zapisany!", "success")
+        return redirect(url_for('Calendar'))  # Przekierowanie do kalendarza
+    else:
+        flash("Użytkownik nie znaleziony!", "error")
+        return redirect(url_for('login'))
+
+
+from flask import jsonify
+
+@app.route('/delete_training', methods=['POST'])
+def delete_training():
+    # Sprawdzamy, czy użytkownik jest zalogowany
+    if 'user_name' not in session:
+        return jsonify({'success': False, 'message': 'Musisz być zalogowany, aby usunąć trening.'})
+
+    training_date = request.form['training_date']
+    print(f"Trening do usunięcia: {training_date}")  # Logowanie daty treningu
+
+    # Pobierz użytkownika na podstawie loginu
+    user = UserData.query.filter_by(first_name=session['user_name']).first()
+
+    if user:
+        # Znajdź trening w bazie danych na podstawie daty i użytkownika
+        training = CalendarWorkout.query.filter_by(user_id=user.id, date_workout=training_date).first()
+
+        if training:
+            db.session.delete(training)
+            db.session.commit()
+            print(f"Trening z datą {training_date} został usunięty.")
+            return jsonify({'success': True})
+        else:
+            return jsonify({'success': False, 'message': 'Trening nie istnieje.'})
+    else:
+        return jsonify({'success': False, 'message': 'Użytkownik nie znaleziony.'})
+    
+
+###########################################################################################
+
 
 #strona z Notatnikiem
 @app.route('/Notepad')
 def Notepad():
     return render_template('Notepad.html')
+
+###########################################################################################
 
 # Codzienna motywacja/Ćwiczenia
 @app.route('/Daily_workout', methods=['GET', 'POST'])
@@ -180,6 +327,7 @@ def Daily_workout():
     return render_template('Daily_workout.html', user=user)
 
 
+###########################################################################################
 
 #Moje dane
 @app.route('/myData')
@@ -200,6 +348,7 @@ def MyData():
 
 
 
+###########################################################################################
 @app.route('/update', methods=['POST'])
 def update_level():
     if 'user_name' not in session:
@@ -223,7 +372,7 @@ def update_level():
         return jsonify({"error": f"Database error: {str(e)}"}), 500
 
 
-
+###########################################################################################
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()  # Tworzenie tabel

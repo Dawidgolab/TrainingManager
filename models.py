@@ -31,3 +31,15 @@ class UserCredentials(db.Model):
 
     def __repr__(self):
         return f"<UserCredentials {self.login}>"
+
+
+class CalendarWorkout(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user_data.id'), nullable=False)
+    date_workout = db.Column(db.Date, nullable=False)
+    note = db.Column(db.String(100))
+
+    user = db.relationship('UserData', backref=db.backref('workouts', lazy=True))
+
+    def __repr__(self):
+        return f"<Workout {self.date_workout} - {self.note}>"

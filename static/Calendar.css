@@ -38,6 +38,16 @@ body {
     margin-top: 80px;
 }
 
+.has-training {
+    background-color: #28a745;
+    color: white;
+    font-weight: bold;
+}
+
+.has-training:hover {
+    background-color: #218838;
+}
+
 #calendar {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
@@ -51,36 +61,13 @@ body {
     margin: 0 auto;
 }
 
-.calendar-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    font-size: 1.5rem;
-    padding: 10px;
-}
-
-.nav-btn {
-    cursor: pointer;
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: white;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-    border: none;
-}
-
-.day-name,
-.day {
-    padding: 20px;
-    text-align: center;
-    font-size: 1.2rem;
-}
-
 .day {
     background-color: #444;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    padding: 20px;
+    text-align: center;
+    font-size: 1.2rem;
 }
 
 .day:hover {
@@ -147,16 +134,6 @@ form button:hover {
     background-color: #0056b3;
 }
 
-/* Stopka */
-footer {
-    background-color: #333;
-    color: white;
-    padding: 15px 0;
-    text-align: center;
-    width: 100vw;
-    margin-top: auto;
-}
-
 /* Responsywność */
 @media (max-width: 768px) {
     #calendar {
@@ -168,7 +145,6 @@ footer {
         font-size: 2rem;
     }
 
-    .day-name,
     .day {
         padding: 15px;
         font-size: 1rem;
