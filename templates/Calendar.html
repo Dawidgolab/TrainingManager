@@ -41,10 +41,13 @@
         </form>
     </div>
 
-    <a href="{{ url_for('main') }}" class="btn">Powrót do głównej</a>
+    <a href="{{ url_for('main') }}" class="btn2">Powrót do głównej</a>
 
     <div id="workouts-data" data-workouts="{{ workouts | tojson }}"></div>
 
+    <footer>
+        <p>&copy; 2024 TreningManager - Wszystkie prawa zastrzeżone</p>
+    </footer>
 
     <script>
         $(document).ready(function () {

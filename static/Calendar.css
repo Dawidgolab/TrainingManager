@@ -8,14 +8,11 @@
 html,
 body {
     height: 100%;
-    min-height: 100vh;
     font-family: 'Arial', sans-serif;
     background: linear-gradient(135deg, #0a0a0a, #1b3a4b);
     color: #fff;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    text-align: center;
 }
 
 /* Nagłówek */
@@ -130,8 +127,25 @@ form button:hover {
     font-size: 1.2rem;
 }
 
-.btn:hover {
-    background-color: #0056b3;
+.btn2 {
+    display: inline-block;
+    padding: 15px 25px;
+    background-color: #007BFF;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 400px;
+    font-size: 1.2rem;
+    text-align: center;
+    width: 20%;
+    margin-left: 40%;
+}
+
+
+
+.btn:hover,
+.btn2:hover {
+    background-color: #00b371;
 }
 
 /* Responsywność */
@@ -149,4 +163,17 @@ form button:hover {
         padding: 15px;
         font-size: 1rem;
     }
+}
+
+/* Ustawienia dla footera */
+footer {
+    background-color: #173a77;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+    width: 100%;
+    /* Rozciąganie na całą szerokość */
+    position: absolute;
+    bottom: 0;
+    /* Ustawienie na samym dole strony */
 }
