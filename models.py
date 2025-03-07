@@ -43,14 +43,3 @@ class CalendarWorkout(db.Model):
 
     def __repr__(self):
         return f"<Workout {self.date_workout} - {self.note}>"
-
-
-class Notes(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user_data.id'), nullable=False)
-    note_text = db.Column(db.String(8000))
-
-    user = db.relationship('UserData', backref=db.backref('workouts', lazy=True))
-
-    def __repr__(self):
-        return f"<Note {self.user_id} - {self.note_text}>"
