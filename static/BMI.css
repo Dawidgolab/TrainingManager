@@ -12,7 +12,7 @@ body {
 body {
     font-family: 'Arial', sans-serif;
     background: linear-gradient(135deg, #1b3a4b, #3e3e3efb, #1b3a4b);
-    color: #333;
+    color: #000000;
     line-height: 1.6;
     display: flex;
     flex-direction: column;
@@ -129,6 +129,26 @@ button:hover {
     /* Dodajemy wyższy z-index */
 }
 
+#bmi-result,
+#bmi-category {
+    color: black !important;
+    font-weight: bold;
+    opacity: 1;
+}
+
+
+#result-container p {
+    color: black !important;
+    font-weight: bold;
+    opacity: 1;
+}
+
+
+#calorie-result-container p {
+    color: black !important;
+    font-weight: bold;
+    opacity: 1;
+}
 
 footer {
     background-color: #173a77;
