@@ -19,6 +19,14 @@
         {% endif %}
     </div>
 
+    <div class="logout-container">
+        <form action="{{ url_for('logout') }}" method="post">
+            <button type="submit" class="logout-btn">Wyloguj</button>
+        </form>
+    </div>
+
+
+
     <div class="features">
         <h2>Opcje dostępne w aplikacji</h2>
         <div class="feature-cards">
@@ -60,6 +68,20 @@
             </a>
         </div>
     </div>
+    <script>
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
+
+        (function () {
+            window.history.pushState(null, null, window.location.href);
+            window.onpopstate = function (event) {
+                fetch("{{ url_for('logout') }}", { method: "POST" }) // Automatyczne wylogowanie
+                    .then(() => window.location.href = "{{ url_for('index') }}"); // Przekierowanie na stronę główną
+            };
+        })();
+    </script>
+
 
     <footer>
         <p>&copy; 2024 TreningManager - Wszystkie prawa zastrzeżone</p>

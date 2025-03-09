@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify
-from models import db, UserData, UserCredentials, CalendarWorkout
+from models import db, UserData, UserCredentials, CalendarWorkout, Notepad
 from sqlalchemy.exc import SQLAlchemyError
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask import Flask, render_template, request, redirect, url_for, session,flash  # Dodaj 'session'
@@ -24,47 +24,7 @@ db.init_app(app)
 
 migrate = Migrate(app, db)
 
-###########################################################################################
-@app.route('/add_training', methods=['POST'])
-def add_training():
-    if 'user_name' not in session:
-        flash("Musisz być zalogowany, aby zapisać trening.", "error")
-        return redirect(url_for('login'))
 
-    user = UserData.query.filter_by(first_name=session['user_name']).first()
-
-    if not user:
-        flash("Nie znaleziono danych użytkownika.", "error")
-        return redirect(url_for('main'))
-
-    training_date = request.form.get('training-date')
-    training_type = request.form.get('training-type')
-
-    # Debugowanie: Wypisanie danych otrzymanych z formularza
-    print(f"Training Date: {training_date}, Training Type: {training_type}")
-
-    # Sprawdzenie, czy trening już istnieje na wybrany dzień
-    existing_training = CalendarWorkout.query.filter_by(user_id=user.id, date_workout=training_date).first()
-    if existing_training:
-        flash("Trening na tę datę już istnieje!", "error")
-        return redirect(url_for('Calendar'))
-
-    new_training = CalendarWorkout(
-        user_id=user.id,
-        date_workout=training_date,
-        note=training_type
-    )
-
-    try:
-        db.session.add(new_training)
-        db.session.commit()
-        flash("Trening zapisany!", "success")
-    except SQLAlchemyError as e:
-        db.session.rollback()  # Rollback in case of error
-        flash("Wystąpił błąd podczas zapisywania treningu.", "error")
-        print(f"Error: {str(e)}")
-
-    return redirect(url_for('Calendar'))
 
 ###########################################################################################
 
@@ -156,6 +116,15 @@ def login():
     return render_template('login.html')
 
 
+
+
+@app.route('/logout', methods=['POST'])
+def logout():
+    session.clear()  # Usuwa całą sesję użytkownika
+    flash("Zostałeś wylogowany.", "info")
+    return redirect(url_for('index'))  # Przekierowanie na stronę główną
+
+
 ###########################################################################################
 
 # Strona główna po zalogowaniu
@@ -232,6 +201,48 @@ def Calendar():
 
 
 
+@app.route('/add_training', methods=['POST'])
+def add_training():
+    if 'user_name' not in session:
+        flash("Musisz być zalogowany, aby zapisać trening.", "error")
+        return redirect(url_for('login'))
+
+    user = UserData.query.filter_by(first_name=session['user_name']).first()
+
+    if not user:
+        flash("Nie znaleziono danych użytkownika.", "error")
+        return redirect(url_for('main'))
+
+    training_date = request.form.get('training-date')
+    training_type = request.form.get('training-type')
+
+    # Debugowanie: Wypisanie danych otrzymanych z formularza
+    print(f"Training Date: {training_date}, Training Type: {training_type}")
+
+    # Sprawdzenie, czy trening już istnieje na wybrany dzień
+    existing_training = CalendarWorkout.query.filter_by(user_id=user.id, date_workout=training_date).first()
+    if existing_training:
+        flash("Trening na tę datę już istnieje!", "error")
+        return redirect(url_for('Calendar'))
+
+    new_training = CalendarWorkout(
+        user_id=user.id,
+        date_workout=training_date,
+        note=training_type
+    )
+
+    try:
+        db.session.add(new_training)
+        db.session.commit()
+        flash("Trening zapisany!", "success")
+    except SQLAlchemyError as e:
+        db.session.rollback()  # Rollback in case of error
+        flash("Wystąpił błąd podczas zapisywania treningu.", "error")
+        print(f"Error: {str(e)}")
+
+    return redirect(url_for('Calendar'))
+
+
 
 
 def save_training():
@@ -297,8 +308,62 @@ def delete_training():
 
 #strona z Notatnikiem
 @app.route('/Notepad')
-def Notepad():
-    return render_template('Notepad.html')
+def notepad():
+    if 'user_name' not in session:
+        flash("Musisz być zalogowany, aby korzystać z notatnika.", "error")
+        return redirect(url_for('login'))
+
+    user = UserData.query.filter_by(first_name=session['user_name']).first()
+    if not user:
+        flash("Nie znaleziono użytkownika.", "error")
+        return redirect(url_for('main'))
+
+    # Pobieramy tylko notatki zalogowanego użytkownika
+    notes = Notepad.query.filter_by(user_id=user.id).all()
+
+    return render_template('Notepad.html', notes=notes)  # 👈 Notatki są przekazywane do HTML
+
+
+
+@app.route('/save_note', methods=['POST'])
+def save_note():
+    if 'user_name' not in session:
+        return jsonify({'success': False, 'message': 'Musisz być zalogowany, aby zapisać notatkę.'})
+
+    user = UserData.query.filter_by(first_name=session['user_name']).first()
+    if not user:
+        return jsonify({'success': False, 'message': 'Nie znaleziono użytkownika.'})
+
+    note_text = request.json.get('note_text', '').strip()
+    if not note_text:
+        return jsonify({'success': False, 'message': 'Treść notatki nie może być pusta.'})
+
+    # Tworzymy nową notatkę przypisaną do konkretnego użytkownika
+    new_note = Notepad(user_id=user.id, note_text=note_text)
+    db.session.add(new_note)
+    db.session.commit()
+
+    return jsonify({'success': True, 'message': 'Notatka zapisana!', 'note_id': new_note.id})
+
+
+
+@app.route('/delete_note', methods=['POST'])
+def delete_note():
+    if 'user_name' not in session:
+        return jsonify({'success': False, 'message': 'Musisz być zalogowany, aby usunąć notatkę.'})
+
+    note_id = request.json.get('note_id')
+    note = Notepad.query.get(note_id)
+
+    if not note:
+        return jsonify({'success': False, 'message': 'Notatka nie istnieje.'})
+
+    db.session.delete(note)
+    db.session.commit()
+
+    return jsonify({'success': True, 'message': 'Notatka usunięta!'})
+
+
 
 ###########################################################################################
 

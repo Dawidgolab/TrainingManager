@@ -43,3 +43,13 @@ class CalendarWorkout(db.Model):
 
     def __repr__(self):
         return f"<Workout {self.date_workout} - {self.note}>"
+
+
+
+class Notepad(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user_data.id'), nullable=False)
+    note_text = db.Column(db.Text, nullable=False)
+    # created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
+
+    user = db.relationship('UserData', backref=db.backref('notes', lazy=True))

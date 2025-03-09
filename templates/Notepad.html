@@ -16,62 +16,96 @@
             <button id="save-btn">Zapisz</button>
             <button id="clear-btn">Wyczyść</button>
         </div>
+
         <div id="saved-notes" class="saved-notes">
             <h2>Twoje zapisane notatki:</h2>
-            <div id="notes-list"></div>
+            <div id="notes-list">
+                {% for note in notes %}
+                <div class="note">
+                    <span>{{ note.note_text }}</span>
+                    <button class="delete-btn" data-id="{{ note.id }}">Usuń</button>
+                </div>
+                {% endfor %}
+            </div>
         </div>
+
+
+
         <br>
         <a href="{{ url_for('main') }}" class="btn">Powrót do głównej</a>
     </div>
 
     <script>
-        // Pobieranie elementów z DOM
-        const noteText = document.getElementById('note-text');
-        const saveButton = document.getElementById('save-btn');
-        const clearButton = document.getElementById('clear-btn');
-        const notesList = document.getElementById('notes-list');
+        document.addEventListener("DOMContentLoaded", function () {
+            const saveButton = document.getElementById('save-btn');
+            const clearButton = document.getElementById('clear-btn');
+            const noteText = document.getElementById('note-text');
+            const notesList = document.getElementById('notes-list');
 
-        // Funkcja do zapisywania notatki
-        saveButton.addEventListener('click', () => {
-            const noteContent = noteText.value.trim();
+            // Dodaj event listener do istniejących przycisków usuwania
+            document.querySelectorAll('.delete-btn').forEach(button => {
+                button.addEventListener('click', function () {
+                    const noteId = this.getAttribute('data-id');
+                    deleteNote(noteId, this.parentElement);
+                });
+            });
 
-            if (noteContent) {
+            // Zapisz nową notatkę
+            saveButton.addEventListener('click', () => {
+                const note_text = noteText.value.trim();
+                if (!note_text) {
+                    alert("Treść notatki nie może być pusta!");
+                    return;
+                }
+
+                fetch('/save_note', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ note_text: note_text })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            addNoteToList(data.note_id, note_text);
+                            noteText.value = '';
+                        } else {
+                            alert(data.message);
+                        }
+                    });
+            });
+
+            // Funkcja usuwania notatki
+            function deleteNote(noteId, noteElement) {
+                fetch('/delete_note', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ note_id: noteId })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            noteElement.remove();
+                        } else {
+                            alert(data.message);
+                        }
+                    });
+            }
+
+            // Dodaj nową notatkę do listy (po zapisie)
+            function addNoteToList(id, note_text) {
                 const note = document.createElement('div');
                 note.classList.add('note');
-
-                // Tworzenie treści notatki
-                const noteTextContent = document.createElement('span');
-                noteTextContent.textContent = noteContent;
-
-                // Tworzenie przycisku "Usuń" dla każdej notatki
-                const deleteButton = document.createElement('button');
-                deleteButton.textContent = 'Usuń';
-                deleteButton.classList.add('delete-btn');
-
-                // Dodaj akcję usuwania notatki
-                deleteButton.addEventListener('click', () => {
-                    note.remove(); // Usuwa notatkę z listy
-                });
-
-                // Dodaj treść notatki i przycisk "Usuń" do elementu notatki
-                note.appendChild(noteTextContent);
-                note.appendChild(deleteButton);
-
-                // Dodaj nową notatkę do listy
+                note.innerHTML = `<span>${note_text}</span> <button class="delete-btn" data-id="${id}">Usuń</button>`;
                 notesList.appendChild(note);
 
-                // Wyczyść pole tekstowe po zapisaniu
-                noteText.value = '';
-            } else {
-                alert('Proszę wpisać treść notatki!');
+                note.querySelector('.delete-btn').addEventListener('click', () => {
+                    deleteNote(id, note);
+                });
             }
         });
-
-        // Funkcja do czyszczenia pola tekstowego
-        clearButton.addEventListener('click', () => {
-            noteText.value = ''; // Wyczyść pole tekstowe
-        });
     </script>
+
+
 </body>
 
 </html>
