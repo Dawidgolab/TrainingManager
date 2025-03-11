@@ -5,6 +5,7 @@
     box-sizing: border-box;
 }
 
+/* Ustawienia html i body */
 html,
 body {
     height: 100%;
@@ -21,18 +22,48 @@ body {
     justify-content: flex-start;
     text-align: center;
     min-height: 100vh;
+    position: relative;
 }
 
+/* Nagłówek */
 H1 {
     font-size: 80px;
     margin-top: -30px;
+    animation: slideIn 1s ease-out;
 }
 
+/* Animacja dla nagłówka */
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+/* Kontener hero */
 .hero {
     margin-top: 50px;
     padding: 20px;
+    animation: fadeIn 2s ease-out;
 }
 
+/* Animacja fade-in dla kontenera hero */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Sekcja features */
 .features {
     margin-top: 30px;
     width: 90%;
@@ -44,6 +75,7 @@ H1 {
     font-size: 1.8rem;
 }
 
+/* Karty funkcji */
 .feature-cards {
     display: flex;
     flex-wrap: wrap;
@@ -67,11 +99,13 @@ H1 {
     backdrop-filter: blur(5px);
 }
 
+/* Efekt hover na kartach funkcji */
 .feature-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
 }
 
+/* Ikony na kartach */
 .feature-card img {
     width: 60px;
     height: 60px;
@@ -79,11 +113,13 @@ H1 {
     filter: drop-shadow(2px 2px 5px rgba(0, 0, 0, 0.5));
 }
 
+/* Nagłówki na kartach */
 .feature-card h3 {
     font-size: 1.3rem;
     margin-bottom: 10px;
 }
 
+/* Stopka */
 footer {
     background: linear-gradient(135deg, #0a0a0a, #1b3a4b, #0a0a0a);
     color: white;
@@ -93,13 +129,14 @@ footer {
     margin-top: auto;
 }
 
-
+/* Kontener wylogowywania */
 .logout-container {
     position: absolute;
     top: 10px;
     right: 10px;
 }
 
+/* Przycisk wylogowania */
 .logout-btn {
     background-color: #ff4d4d;
     color: white;
@@ -108,8 +145,10 @@ footer {
     font-size: 16px;
     cursor: pointer;
     border-radius: 5px;
+    transition: background-color 0.3s;
 }
 
+/* Efekt hover dla przycisku wylogowania */
 .logout-btn:hover {
     background-color: #cc0000;
 }

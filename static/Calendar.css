@@ -5,6 +5,7 @@
     box-sizing: border-box;
 }
 
+/* Ustawienia dla html i body */
 html,
 body {
     height: 100%;
@@ -20,6 +21,18 @@ body {
     width: 100%;
     padding: 20px;
     text-align: center;
+    animation: fadeIn 2s ease-out;
+}
+
+/* Animacja fadeIn dla nagłówka */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 .hero h1 {
@@ -56,6 +69,11 @@ body {
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
     margin: 0 auto;
+    transition: transform 0.3s ease;
+}
+
+#calendar:hover {
+    transform: translateY(-5px);
 }
 
 .day {
@@ -109,10 +127,12 @@ form button {
     background-color: #28a745;
     color: white;
     cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 form button:hover {
-    opacity: 0.8;
+    background-color: #218838;
+    opacity: 0.9;
 }
 
 /* Przycisk Powrót */
@@ -125,6 +145,8 @@ form button:hover {
     border-radius: 5px;
     margin-top: 20px;
     font-size: 1.2rem;
+    transition: background-color 0.3s ease;
+    z-index: 100;
 }
 
 .btn2 {
@@ -134,14 +156,13 @@ form button:hover {
     color: white;
     text-decoration: none;
     border-radius: 5px;
-    margin-top: 400px;
+    margin-top: 200px;
     font-size: 1.2rem;
     text-align: center;
     width: 20%;
     margin-left: 40%;
+    transition: background-color 0.3s ease;
 }
-
-
 
 .btn:hover,
 .btn2:hover {
@@ -172,7 +193,6 @@ footer {
     padding: 10px 0;
     text-align: center;
     width: 100%;
-    /* Rozciąganie na całą szerokość */
     position: absolute;
     bottom: 0;
     /* Ustawienie na samym dole strony */

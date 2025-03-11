@@ -1,114 +1,256 @@
+/* Globalne resetowanie marginesów i paddingów */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Tło i czcionka dla całego ciała */
 body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(90deg, rgb(136, 131, 235) 35%, rgb(193, 235, 190) 96%);
-    color: #333;
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #2c3e50 30%, #34495e 100%);
+    /* Ciemne gradientowe tło */
+    color: #ecf0f1;
+    /* Jasny tekst */
     margin: 0;
     padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+    overflow: hidden;
+    /* Zapobiega przewijaniu strony */
+    flex-direction: column;
+    /* Vertically align the content */
+    position: relative;
+    /* For the gradient overlay */
 }
 
+/* Subtle animation for background */
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    /* Darker overlay */
+    animation: backgroundAnimation 10s infinite ease-in-out;
+    z-index: -1;
+}
+
+@keyframes backgroundAnimation {
+    0% {
+        background: rgba(0, 0, 0, 0.3);
+    }
+
+    50% {
+        background: rgba(0, 0, 0, 0.6);
+    }
+
+    100% {
+        background: rgba(0, 0, 0, 0.3);
+    }
+}
+
+/* Styl kontenera ćwiczeń */
 .daily-exercise {
-    background-color: #f9f9f9;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    padding: 20px;
+    background-color: #2c3e50;
+    /* Ciemne tło */
+    border: 1px solid #34495e;
+    /* Lekka ramka w ciemniejszym odcieniu */
+    border-radius: 16px;
+    /* Większe zaokrąglenie rogów */
+    padding: 40px;
     text-align: center;
-    width: 100%;
-    max-width: 400px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    /* Zajmuje 80% szerokości ekranu */
+    max-width: 960px;
+    /* Maksymalna szerokość 960px */
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+    /* Add spacing between the container and other elements */
+    top: 100px;
+    opacity: 0;
+    animation: fadeIn 2s forwards;
 }
 
-.daily-exercise h2 {
-    font-size: 1.8rem;
-    margin-bottom: 15px;
+/* Fade-in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
+/* Efekt hover na kontenerze ćwiczeń */
+.daily-exercise:hover {
+    transform: translateY(-10px);
+    /* Dodajemy efekt unoszenia */
+    box-shadow: 0px 12px 24px rgba(0, 0, 0, 0.3);
+    /* Zwiększamy cień */
+}
+
+/* Nagłówek ćwiczenia */
+h2 {
+    font-size: 3rem;
+    /* Większa czcionka */
+    margin-bottom: 160px;
+    color: #f39c12;
+    /* Akcent w złotym kolorze */
+    font-weight: bold;
+    margin-top: 50px;
+    animation: slideIn 1s ease-out;
+}
+
+/* Text slide-in animation */
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+/* Tekst w sekcji ćwiczenia */
 #exercise-container p {
-    font-size: 1.2rem;
-    margin-bottom: 10px;
+    font-size: 1.5rem;
+    /* Większa czcionka */
+    margin-bottom: 30px;
+    color: #ecf0f1;
 }
 
+/* Styl statusu ćwiczenia */
 #exercise-status {
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
+/* Styl listy w statusie ćwiczenia */
 #exercise-status ul {
     list-style-type: none;
     padding: 0;
-    margin: 10px 0;
+    margin: 20px 0;
+    font-size: 1.5rem;
+    /* Większa czcionka */
+    text-align: left;
 }
 
+/* Styl poszczególnych elementów listy */
 #exercise-status ul li {
-    font-size: 1.1rem;
-    margin: 5px 0;
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
+    background-color: #16a085;
+    /* Ciemny morski kolor */
+    color: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    animation: pulse 2s infinite;
 }
 
+/* "Pulse" effect on list items */
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Efekt hover dla elementów listy */
+#exercise-status ul li:hover {
+    transform: translateY(-5px);
+    background-color: #1abc9c;
+    /* Jaśniejszy odcień przy hover */
+}
+
+/* Styl statystyk użytkownika */
 #user-stats {
-    margin-top: 20px;
-    font-size: 1rem;
+    margin-top: 40px;
+    font-size: 1.4rem;
+    /* Większa czcionka */
 }
 
 #user-stats p {
-    margin: 5px 0;
+    margin: 10px 0;
+    font-weight: bold;
 }
 
+/* Ukryte elementy */
 .hidden {
     display: none;
 }
 
+/* Styl przycisków */
 .btn {
-    background-color: #28a745;
-    color: white;
+    background-color: #2980b9;
+    /* Ciemny niebieski */
+    color: #ecf0f1;
     border: none;
-    padding: 10px 20px;
-    font-size: 1rem;
+    padding: 20px 40px;
+    /* Większe przyciski */
+    font-size: 1.5rem;
+    /* Większa czcionka */
     cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
-
-.btn:hover {
-    background-color: #218838;
-}
-
-#progress-container {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    width: 200px;
-    height: 25px;
-    background-color: #e0e0e0;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-#progress-bar {
-    height: 100%;
-    background-color: #4CAF50;
-    width: 0%;
-    transition: width 0.3s ease-in-out;
-}
-
-.btn {
-    background-color: #28a745;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 1rem;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s;
+    border-radius: 12px;
+    transition: background-color 0.3s, transform 0.3s;
     text-decoration: none;
+    margin: 30px 0;
+    animation: pulseButton 2s infinite;
 }
 
+/* "Pulse" effect on buttons */
+@keyframes pulseButton {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Efekt hover dla przycisków */
 .btn:hover {
-    background-color: #218838;
+    background-color: #3498db;
+    /* Jaśniejszy niebieski przy hover */
+    transform: translateY(-5px);
+}
+
+/* Stopka */
+footer {
+    background: linear-gradient(135deg, #0a0a0a, #1b3a4b, #0a0a0a);
+    /* Gradientowe tło */
+    color: white;
+    padding: 15px 0;
+    text-align: center;
+    width: 100%;
+    margin-top: auto;
+    /* Zapewnia, że stopka będzie zawsze na dole */
+    position: relative;
+    bottom: 0;
+}
+
+/* Dodatkowe stylowanie */
+footer p {
+    font-size: 1.1rem;
+    font-weight: bold;
 }

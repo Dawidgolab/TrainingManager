@@ -1,3 +1,4 @@
+/* Globalne resetowanie marginesów i paddingów */
 * {
     margin: 0;
     padding: 0;
@@ -5,6 +6,7 @@
     font-family: 'Poppins', sans-serif;
 }
 
+/* Tło i czcionka dla całego ciała */
 body {
     height: 100vh;
     display: flex;
@@ -12,8 +14,38 @@ body {
     justify-content: center;
     background: linear-gradient(135deg, #1b3a4b, #3e3e3efb, #1b3a4b);
     color: #fff;
+    position: relative;
 }
 
+/* Subtle animation for background */
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    /* Darker overlay */
+    animation: backgroundAnimation 10s infinite ease-in-out;
+    z-index: -1;
+}
+
+@keyframes backgroundAnimation {
+    0% {
+        background: rgba(0, 0, 0, 0.3);
+    }
+
+    50% {
+        background: rgba(0, 0, 0, 0.6);
+    }
+
+    100% {
+        background: rgba(0, 0, 0, 0.3);
+    }
+}
+
+/* Kontener */
 .container {
     background: rgba(255, 255, 255, 0.15);
     padding: 30px;
@@ -23,13 +55,41 @@ body {
     width: 90%;
     max-width: 600px;
     text-align: center;
+    animation: fadeIn 2s ease-out;
 }
 
+/* Fade-in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Nagłówek */
 h1 {
     font-weight: 600;
     margin-bottom: 20px;
+    animation: slideIn 1s ease-out;
 }
 
+/* Slide-in animation for h1 */
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+/* Tekstarea */
 textarea {
     width: 100%;
     height: 200px;
@@ -41,12 +101,19 @@ textarea {
     font-size: 16px;
     resize: none;
     outline: none;
+    transition: background 0.3s ease;
 }
 
 textarea::placeholder {
     color: rgba(255, 255, 255, 0.7);
 }
 
+/* Animacja zmiany tła textarea */
+textarea:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* Przyciski */
 .buttons {
     display: flex;
     justify-content: space-between;
@@ -65,6 +132,7 @@ button {
     color: #fff;
 }
 
+/* Style for individual buttons */
 #save-btn {
     background: #1abc9c;
 }
@@ -81,11 +149,13 @@ button {
     background: #ff4757;
 }
 
+/* Zapisane notatki */
 .saved-notes {
     margin-top: 20px;
     text-align: left;
 }
 
+/* Notatki */
 .note {
     background: rgba(255, 255, 255, 0.2);
     padding: 12px;
@@ -94,19 +164,23 @@ button {
     justify-content: space-between;
     align-items: center;
     margin-top: 10px;
+    transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
+/* Button for deleting note */
 .delete-btn {
     background: #dc3545;
     padding: 6px 12px;
     border-radius: 5px;
     cursor: pointer;
+    transition: background 0.3s;
 }
 
 .delete-btn:hover {
     background: #c82333;
 }
 
+/* Przycisk blokowy */
 .btn {
     display: block;
     text-align: center;
@@ -118,6 +192,7 @@ button {
     text-decoration: none;
 }
 
+/* Hover effect for block button */
 .btn:hover {
     background: #2980b9;
 }

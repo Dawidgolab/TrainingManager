@@ -1,9 +1,11 @@
+/* Resetowanie marginesów i paddingów */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* Ustawienia dla html i body */
 html,
 body {
     height: 100%;
@@ -16,6 +18,7 @@ body {
     /* Wyśrodkowanie tekstu */
 }
 
+/* Ustawienia dla body */
 body {
     font-family: 'Arial', sans-serif;
     background: linear-gradient(135deg, #1b3a4b, #3e3e3efb, #1b3a4b);
@@ -27,11 +30,24 @@ body {
     width: 100%;
 }
 
+/* Nagłówek */
 .hero {
     padding: 20px;
     width: 100%;
     max-width: 800px;
     /* Szerokość maksymalna dla kontenera */
+    animation: fadeIn 1.5s ease-out;
+}
+
+/* Animacja fadeIn dla nagłówka */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
 
 .hero h1 {
@@ -41,6 +57,7 @@ body {
     text-shadow: 4px 4px 10px rgba(0, 0, 0, 0.7);
 }
 
+/* Styl dla timera */
 #big-timer {
     font-size: 6rem;
     font-weight: bold;
@@ -50,6 +67,7 @@ body {
     transition: transform 0.3s ease-in-out;
 }
 
+/* Styl dla statusu */
 #status {
     font-size: 2rem;
     font-weight: bold;
@@ -58,6 +76,7 @@ body {
     margin-bottom: 20px;
 }
 
+/* Styl dla przycisków */
 button {
     font-size: 1.5rem;
     padding: 15px 30px;
@@ -79,6 +98,7 @@ button:active {
     transform: scale(0.95);
 }
 
+/* Styl dla sekcji features */
 .features {
     background: rgba(255, 255, 255, 0.1);
     padding: 40px;
@@ -90,7 +110,7 @@ button:active {
     /* Wyśrodkowanie kontenera */
 }
 
-
+/* Styl dla formularza */
 .form-group label {
     display: block;
     font-size: 2.1rem;
@@ -110,22 +130,12 @@ button:active {
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
 }
 
-.features {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 40px;
-    border-radius: 15px;
-    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
-    width: 90%;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
 .form-group {
     margin-bottom: 25px;
     /* Zwiększenie odstępu między grupami formularza */
 }
 
-
+/* Styl dla przycisku */
 .btn {
     background-color: #5f63e5;
     color: white;
@@ -144,7 +154,11 @@ button:active {
     margin-bottom: 80px;
 }
 
+.btn:hover {
+    background-color: #4d53c7;
+}
 
+/* Styl dla footera */
 footer {
     background: linear-gradient(135deg, #0a0a0a, #1b3a4b, #0a0a0a);
     color: white;

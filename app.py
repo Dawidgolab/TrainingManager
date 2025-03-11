@@ -1,8 +1,7 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify
 from models import db, UserData, UserCredentials, CalendarWorkout, Notepad
 from sqlalchemy.exc import SQLAlchemyError
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask import Flask, render_template, request, redirect, url_for, session,flash  # Dodaj 'session'
+from flask import Flask, render_template, request, redirect, url_for, session,flash,jsonify  # Dodaj 'session'
 from flask_migrate import Migrate
 import random
 import json
@@ -274,8 +273,6 @@ def save_training():
         return redirect(url_for('login'))
 
 
-from flask import jsonify
-
 @app.route('/delete_training', methods=['POST'])
 def delete_training():
     # Sprawdzamy, czy użytkownik jest zalogowany
@@ -407,34 +404,11 @@ def MyData():
         flash("Nie znaleziono danych użytkownika.", "error")
         return redirect(url_for('main'))
 
-    # Odśwież dane użytkownika w sesji
-    session['user_level'] = user.level
+
     return render_template('myData.html', user=user)
 
 
 
-###########################################################################################
-@app.route('/update', methods=['POST'])
-def update_level():
-    if 'user_name' not in session:
-        return jsonify({"error": "User not logged in"}), 400
-
-    user_name = request.form.get('user_name')
-    new_level = request.form.get('level')
-
-    user = UserData.query.filter_by(first_name=user_name).first()
-
-    if not user:
-        return jsonify({"error": "User not found"}), 404
-
-    try:
-        # Zaktualizuj poziom użytkownika w bazie danych
-        user.level = new_level
-        db.session.commit()  # Zapisz zmiany w bazie danych
-        return jsonify({"message": "Level updated successfully"})
-    except SQLAlchemyError as e:
-        db.session.rollback()
-        return jsonify({"error": f"Database error: {str(e)}"}), 500
 
 
 ###########################################################################################
