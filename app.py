@@ -146,18 +146,23 @@ with open("Exercises.json", encoding="utf-8") as f:
 def workout_plan():
     return render_template('Workout_plan.html')
 
-
+# Pobieranie ćwiczeń według wybranej kategorii
 @app.route('/get_exercises', methods=['GET'])
 def get_exercises():
-    filtered_exercises = [ex for ex in exercises_data["exercises"] if ex["discipline"] == "chwytane"]
-    
-    if not filtered_exercises:
-        return jsonify({"error": "Brak ćwiczeń dla tej kategorii"}), 404
-    
-    selected_exercises = random.sample(filtered_exercises, min(len(filtered_exercises), 5))
-    
-    return jsonify(selected_exercises)
+    discipline = request.args.get("discipline")  # Pobranie parametru discipline z URL
 
+    if not discipline:
+        return jsonify({"error": "Nie podano kategorii ćwiczeń"}), 400
+
+    # Filtrowanie ćwiczeń na podstawie wybranej kategorii
+    grabbed_exercises = [ex for ex in exercises_data["exercises"] if ex["discipline"] == discipline]
+
+    if not grabbed_exercises:
+        return jsonify({"error": "Brak ćwiczeń dla tej kategorii"}), 404
+
+    selected_exercises = random.sample(grabbed_exercises, min(len(grabbed_exercises), 5))
+
+    return jsonify(selected_exercises)
 
 ###########################################################################################
 
