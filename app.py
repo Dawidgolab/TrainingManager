@@ -144,7 +144,17 @@ with open("Exercises.json", encoding="utf-8") as f:
 # Strona z generowaniem planów treningowych
 @app.route('/Workout_plan')
 def workout_plan():
-    return render_template('Workout_plan.html')
+    if 'user_name' not in session:
+        flash("Musisz być zalogowany, aby zobaczyć kalendarz.", "error")
+        return redirect(url_for('login'))
+    
+    user = UserData.query.filter_by(first_name=session['user_name']).first()
+
+    if user:
+        return render_template('Workout_plan.html')
+    else:
+        flash("Nie znaleziono użytkownika.", "error")
+        return redirect(url_for('login'))
 
 # Pobieranie ćwiczeń według wybranej kategorii
 @app.route('/get_exercises', methods=['GET'])
