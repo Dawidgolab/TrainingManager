@@ -159,20 +159,32 @@ def workout_plan():
 # Pobieranie ćwiczeń według wybranej kategorii
 @app.route('/get_exercises', methods=['GET'])
 def get_exercises():
-    discipline = request.args.get("discipline")  # Pobranie parametru discipline z URL
+    discipline = request.args.get("discipline")
+    day_of_week = request.args.get("day_of_week")  # Pobranie dnia tygodnia
 
     if not discipline:
         return jsonify({"error": "Nie podano kategorii ćwiczeń"}), 400
 
-    # Filtrowanie ćwiczeń na podstawie wybranej kategorii
-    grabbed_exercises = [ex for ex in exercises_data["exercises"] if ex["discipline"] == discipline]
-
-    if not grabbed_exercises:
+    filtered_exercises = [ex for ex in exercises_data["exercises"] if ex["discipline"] == discipline]
+    
+    if not filtered_exercises:
         return jsonify({"error": "Brak ćwiczeń dla tej kategorii"}), 404
-
-    selected_exercises = random.sample(grabbed_exercises, min(len(grabbed_exercises), 5))
-
+    
+    # Przypisanie ćwiczeń do odpowiednich dni tygodnia
+    if day_of_week in ['0', '2', '4']:  # Poniedziałek, Środa, Piątek
+        filtered_exercises = [ex for ex in filtered_exercises if ex["type"] == "technika"]
+    elif day_of_week in ['1', '3']:  # Wtorek, Czwartek
+        filtered_exercises = [ex for ex in filtered_exercises if ex["type"] == "siłowe"]
+    elif day_of_week == '5':  # Sobota
+        filtered_exercises = [ex for ex in filtered_exercises if ex["type"] == "interwały"]
+    elif day_of_week == '6':  # Niedziela
+        return jsonify([])  # Dzień wolny
+    
+    selected_exercises = random.sample(filtered_exercises, min(len(filtered_exercises), 5))
+    
     return jsonify(selected_exercises)
+
+
 
 ###########################################################################################
 
@@ -388,18 +400,6 @@ def Daily_workout():
 
     user = UserData.query.filter_by(first_name=session['user_name']).first()
 
-    if request.method == 'POST':
-        # Przykładowa logika aktualizacji poziomu
-        points_gained = 10  # Punkty zdobyte za ukończenie treningu
-        points_for_next_level = 50  # Punkty wymagane do awansu na kolejny poziom
-
-        # Oblicz nowy poziom
-        if user:
-            user.level += points_gained // points_for_next_level  # Zwiększ poziom na podstawie punktów
-            db.session.commit()  # Zapisz zmiany w bazie danych
-
-        flash(f"Gratulacje! Twój nowy poziom to {user.level}.", "success")
-        return redirect(url_for('Daily_workout'))
 
     return render_template('Daily_workout.html', user=user)
 

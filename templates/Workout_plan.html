@@ -25,109 +25,63 @@
     <script>
         $(document).ready(function () {
             let generatedPlan = [];
+            const daysOfWeek = ["Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota", "Niedziela"];
 
             function fetchExercises(discipline) {
-                $.ajax({
-                    url: `/get_exercises?discipline=${discipline}`,
-                    method: "GET",
-                    success: function (data) {
-                        const daysOfWeek = ["Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota", "Niedziela"];
-                        const exercisesPerDay = [];
-                        let exercisesIndex = 0;
-                        const exercisesPerDayLimit = 8;
+                let exercisesPerDay = [];
+                let requests = [];
 
-                        function generateRandomTime() {
-                            const repetitions = Math.floor(Math.random() * (5 - 2 + 1)) + 2;
-                            const duration = Math.floor(Math.random() * (6 - 2 + 1)) + 2;
-                            const timeInSeconds = duration * 10;
-                            return `${repetitions} razy po ${timeInSeconds} sekund`;
-                        }
-
-                        for (let i = 0; i < 7; i++) {
-                            exercisesPerDay[i] = [];
-                            for (let j = 0; j < exercisesPerDayLimit; j++) {
-                                if (exercisesIndex < data.length) {
-                                    let exercise = { ...data[exercisesIndex] };
-                                    exercise.time = generateRandomTime();
-                                    exercisesPerDay[i].push(exercise);
-                                    exercisesIndex++;
-                                } else {
-                                    exercisesIndex = 0;
-                                    let exercise = { ...data[exercisesIndex] };
-                                    exercise.time = generateRandomTime();
-                                    exercisesPerDay[i].push(exercise);
-                                    exercisesIndex++;
-                                }
-                            }
-                        }
-
-                        exercisesPerDay[6] = "Wolne";
-
-                        $("#exercise-list").empty();
-
-                        exercisesPerDay.forEach(function (exercises, index) {
-                            let dayPlan = `<div class="day-plan"><h4>${daysOfWeek[index]}</h4><ul>`;
-
-                            if (exercises === "Wolne") {
-                                dayPlan += `<li>Dzień wolny! Twój czas na odpoczynek i regeneracje!!</li>`;
-                            } else {
-                                exercises.forEach(function (exercise) {
-                                    dayPlan += `<li>${exercise.name} - ${exercise.time}</li>`;
-                                });
-                            }
-
-                            dayPlan += "</ul></div>";
-                            $("#exercise-list").append(dayPlan);
-                        });
-
-                        generatedPlan = exercisesPerDay;
-
-                        $("#exercise-plan").removeClass("hidden");
-                        $("#download-plan").show();
-                    },
-                    error: function () {
-                        alert("Błąd podczas pobierania ćwiczeń!");
+                daysOfWeek.forEach((day, index) => {
+                    if (index === 6) {
+                        exercisesPerDay[index] = "Wolne";
+                        return;
                     }
+
+                    requests.push(
+                        $.ajax({
+                            url: `/get_exercises?discipline=${discipline}&day_of_week=${index}`,
+                            method: "GET"
+                        }).done(function (data) {
+                            exercisesPerDay[index] = data.length ? data : "Brak ćwiczeń";
+                        }).fail(function () {
+                            exercisesPerDay[index] = "Błąd ładowania";
+                        })
+                    );
+                });
+
+                $.when.apply($, requests).then(() => {
+                    displayExercises(exercisesPerDay);
+                    generatedPlan = exercisesPerDay;
+                    $("#exercise-plan").removeClass("hidden");
+                    $("#download-plan").show();
                 });
             }
 
-            // Obsługa kliknięć dla różnych kategorii ćwiczeń
-            $("#btn-chwytane").click(function () {
-                fetchExercises("chwytane");
-            });
+            function displayExercises(exercisesPerDay) {
+                $("#exercise-list").empty();
+                exercisesPerDay.forEach((exercises, index) => {
+                    let dayPlan = `<div class="day-plan"><h4>${daysOfWeek[index]}</h4><ul>`;
 
-            $("#btn-mieszane").click(function () {
-                fetchExercises("chwytane i uderzane");
-            });
-
-            $("#btn-uderzane").click(function () {
-                fetchExercises("uderzane");
-            });
-
-            $("#download-plan").click(function () {
-                let planText = "";
-
-                generatedPlan.forEach(function (dayPlan, index) {
-                    planText += `<h4>${["Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota", "Niedziela"][index]}</h4>`;
-                    if (dayPlan === "Wolne") {
-                        planText += "Dzień wolny!\n";
+                    if (exercises === "Wolne") {
+                        dayPlan += `<li>Dzień wolny! Czas na regenerację.</li>`;
+                    } else if (exercises === "Brak ćwiczeń" || exercises === "Błąd ładowania") {
+                        dayPlan += `<li>${exercises}</li>`;
                     } else {
-                        dayPlan.forEach(function (exercise) {
-                            planText += `${exercise.name} - ${exercise.time}\n`;
+                        exercises.forEach(exercise => {
+                            dayPlan += `<li>${exercise.name}</li>`;
                         });
                     }
-                    planText += "\n";
-                });
 
-                const blob = new Blob([planText], { type: "text/plain;charset=utf-8" });
-                const link = document.createElement("a");
-                link.href = URL.createObjectURL(blob);
-                link.download = "plan_treningowy.txt";
-                link.click();
-            });
+                    dayPlan += "</ul></div>";
+                    $("#exercise-list").append(dayPlan);
+                });
+            }
+
+            $("#btn-chwytane").click(() => fetchExercises("chwytane"));
+            $("#btn-mieszane").click(() => fetchExercises("chwytane i uderzane"));
+            $("#btn-uderzane").click(() => fetchExercises("uderzane"));
         });
     </script>
-
 </body>
 
 </html>

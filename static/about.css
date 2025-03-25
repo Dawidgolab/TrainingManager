@@ -22,6 +22,16 @@ body {
     min-height: 100vh;
 }
 
+.features,
+.container {
+    max-width: 100vh;
+    /* Możesz dostosować wartość, np. 750px */
+    width: 90%;
+    /* Aby zachować responsywność */
+    margin: 0 auto;
+}
+
+
 .container {
     max-width: 900px;
     margin: 50px auto;
