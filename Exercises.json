@@ -212,55 +212,55 @@
         },
         {
             "id": 35,
-            "name": "Bieg długodystansowy",
+            "name": "Sprinty z obciążeniem (np. partner na plecach)",
             "type": "interwały",
             "discipline": "chwytane"
         },
         {
             "id": 36,
-            "name": "Sprinty 60m",
+            "name": "Przewroty do pozycji dominującej",
             "type": "interwały",
             "discipline": "chwytane"
         },
         {
             "id": 37,
-            "name": "Sprinty 100m",
+            "name": "Zrywy z maty (wstawanie z gardy)",
             "type": "interwały",
             "discipline": "chwytane"
         },
         {
             "id": 38,
-            "name": "Sprinty 200m",
+            "name": "Rzuty na dynamikę (np. powtarzalne rzuty na biodro)",
             "type": "interwały",
             "discipline": "chwytane"
         },
         {
             "id": 39,
-            "name": "Sprinty 400m",
+            "name": "Toczenie opon / trening siłowy na chwyt",
             "type": "interwały",
             "discipline": "chwytane"
         },
         {
             "id": 40,
-            "name": "Crossfit",
+            "name": "Skoki do klinczu i wyjście z uchwytu",
             "type": "interwały",
             "discipline": "chwytane"
         },
         {
             "id": 41,
-            "name": "AirBike",
+            "name": "Skręty biodrami do obaleń",
             "type": "interwały",
             "discipline": "chwytane"
         },
         {
             "id": 42,
-            "name": "Wioślarz",
+            "name": "Szarpanie na drążku (pull-ups z zatrzymaniem)",
             "type": "interwały",
             "discipline": "chwytane"
         },
         {
             "id": 43,
-            "name": "AirBike",
+            "name": "Ćwiczenia z piłką lekarską (np. wyrzuty z bioder)",
             "type": "interwały",
             "discipline": "chwytane"
         },
@@ -272,15 +272,675 @@
         },
         {
             "id": 45,
+            "name": "Cios prosty (jab)",
+            "type": "technika",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 46,
+            "name": "Cios krzyżowy (cross)",
+            "type": "technika",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 47,
+            "name": "Hak na głowę",
+            "type": "technika",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 48,
+            "name": "Hak na tułów",
+            "type": "technika",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 49,
+            "name": "Podbródkowy",
+            "type": "technika",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 50,
+            "name": "Kopnięcie frontalne",
+            "type": "technika",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 51,
+            "name": "Kopnięcie okrężne (roundhouse)",
+            "type": "technika",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 52,
+            "name": "Low kick",
+            "type": "technika",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 53,
+            "name": "Middle kick",
+            "type": "technika",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 54,
+            "name": "High kick",
+            "type": "technika",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 55,
+            "name": "Unik przed ciosem prostym",
+            "type": "technika",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 56,
+            "name": "Unik przed sierpem",
+            "type": "technika",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 57,
+            "name": "Blok przed kopnięciem okrężnym",
+            "type": "technika",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 58,
+            "name": "Kontratak po uniku",
+            "type": "technika",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 59,
+            "name": "Praca nóg w defensywie",
+            "type": "technika",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 60,
+            "name": "Jab + Cross + Low Kick",
+            "type": "technika",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 61,
+            "name": "Jab + Cross + Hook",
+            "type": "technika",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 62,
+            "name": "Jab + Cross + Middle Kick",
+            "type": "technika",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 63,
+            "name": "Hook + Uppercut + High Kick",
+            "type": "technika",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 64,
+            "name": "Cross + Hook + Cross + Low Kick",
+            "type": "technika",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 65,
+            "name": "Wyciskanie sztangi stojąc (Military Press)",
+            "type": "siłowe",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 66,
+            "name": "Przysiady ze sztangą (Back Squat)",
+            "type": "siłowe",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 67,
+            "name": "Swingi z kettlem",
+            "type": "siłowe",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 68,
+            "name": "Uginanie ramion z hantlami (Biceps Curl)",
+            "type": "siłowe",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 69,
+            "name": "Wiosłowanie hantlem w opadzie (Bent-over Row)",
+            "type": "siłowe",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 70,
+            "name": "Martwy ciąg ze sztangą",
+            "type": "siłowe",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 71,
+            "name": "Wykroki z hantlami",
+            "type": "siłowe",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 72,
+            "name": "Martwy ciąg na jednej nodze z kettlem",
+            "type": "siłowe",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 73,
+            "name": "Thruster (przysiad + wyciskanie hantli nad głowę)",
+            "type": "siłowe",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 74,
+            "name": "Podciąganie na drążku z obciążeniem",
+            "type": "siłowe",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 75,
             "name": "Wyciskanie hantli na ławce skośnej",
             "type": "siłowe",
             "discipline": "uderzane"
         },
         {
-            "id": 105,
-            "name": "Turkish get-up",
+            "id": 76,
+            "name": "Unoszenie kolan w zwisie na drążku z obciążeniem",
             "type": "siłowe",
-            "discipline": "chwytane i uderzane"
+            "discipline": "uderzane"
+        },
+        {
+            "id": 77,
+            "name": "Rotacyjne uderzenia piłką lekarską o ścianę",
+            "type": "siłowe",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 78,
+            "name": "Przeciąganie ciężaru po podłodze (sledge drag)",
+            "type": "siłowe",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 79,
+            "name": "Wyrzuty piłki lekarskiej w górę",
+            "type": "siłowe",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 80,
+            "name": "Przysiady ze sztangą na plecach",
+            "type": "siłowe",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 81,
+            "name": "Wyciskanie sztangi nad głowę",
+            "type": "siłowe",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 82,
+            "name": "Swingi z kettlebell",
+            "type": "siłowe",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 83,
+            "name": "Uderzenia młotem w oponę",
+            "type": "siłowe",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 84,
+            "name": "Przenoszenie ciężaru nad głową (Overhead Carry)",
+            "type": "siłowe",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 85,
+            "name": "Shadowboxing interwałowy 3x3 min",
+            "type": "interwały",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 86,
+            "name": "Sprinty z ciosami (np. prosty-lewy, prosty-prawy)",
+            "type": "interwały",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 87,
+            "name": "Praca na tarczach – szybkie kombinacje",
+            "type": "interwały",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 88,
+            "name": "Worki bokserskie – interwały siłowe",
+            "type": "interwały",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 89,
+            "name": "Przeskoki bokserkie + ciosy",
+            "type": "interwały",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 90,
+            "name": "Ataki z unikiem – interwał 30s/30s",
+            "type": "interwały",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 91,
+            "name": "Skakanka – sprinty na nogach",
+            "type": "interwały",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 92,
+            "name": "Sparingi",
+            "type": "interwały",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 93,
+            "name": "Sprinty z zmianą kierunku (unik + kontratak)",
+            "type": "interwały",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 94,
+            "name": "Szybkie kopnięcia na tarczę",
+            "type": "interwały",
+            "discipline": "uderzane"
+        },
+        {
+            "id": 95,
+            "name": "Łączenie uderzeń z obaleniami",
+            "type": "technika",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 96,
+            "name": "Kontrola w klinczu z uderzeniami",
+            "type": "technika",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 97,
+            "name": "Obrona przed obaleniem z kontrą",
+            "type": "technika",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 98,
+            "name": "Ground and pound - kontrola i atak",
+            "type": "technika",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 99,
+            "name": "Przejścia pozycji z ciosami",
+            "type": "technika",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 100,
+            "name": "Przejścia między uderzeniami a klinczem",
+            "type": "technika",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 101,
+            "name": "Uderzenia w parterze z kontroli bocznej",
+            "type": "technika",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 102,
+            "name": "Przejścia między gardą a próbami poddań",
+            "type": "technika",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 103,
+            "name": "Obrona przed ciosami w klinczu",
+            "type": "technika",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 104,
+            "name": "Podcięcia i obalenia z kombinacją ciosów",
+            "type": "technika",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 105,
+            "name": "Ucieczki z parteru przy jednoczesnej obronie ciosów",
+            "type": "technika",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 106,
+            "name": "Przejścia między duszeniami a uderzeniami",
+            "type": "technika",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 107,
+            "name": "Kombinacje kolan i łokci w zwarciu",
+            "type": "technika",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 108,
+            "name": "Obrona przed ground and pound",
+            "type": "technika",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 109,
+            "name": "Praca na ścianie – kontrola i ucieczki",
+            "type": "technika",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 110,
+            "name": "Przejścia między kombinacjami ciosów a obaleniami",
+            "type": "technika",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 111,
+            "name": "Obrona przed obaleniami i szybka kontra",
+            "type": "technika",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 112,
+            "name": "Atak z dosiadu – kontrola i wykańczanie ciosami",
+            "type": "technika",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 113,
+            "name": "Praca z półgardy – uderzenia i przejścia do kontroli",
+            "type": "technika",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 114,
+            "name": "Obrona przed kopnięciem i kontratak obaleniem",
+            "type": "technika",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 115,
+            "name": "Grappling z użyciem ciosów w stójce",
+            "type": "technika",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 116,
+            "name": "Kontrola w klinczu i uderzenia korpusu",
+            "type": "technika",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 117,
+            "name": "Obrona przed duszeniami i szybkie przejście do dominującej pozycji",
+            "type": "technika",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 118,
+            "name": "Praca na dystans – wejścia i uniki w MMA",
+            "type": "technika",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 119,
+            "name": "Rzuty z kombinacją ciosów przy wejściu",
+            "type": "technika",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 120,
+            "name": "Martwy ciąg sumo",
+            "type": "siłowe",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 121,
+            "name": "Przysiady ze sztangą na plecach",
+            "type": "siłowe",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 122,
+            "name": "Wyciskanie hantli na ławce skośnej",
+            "type": "siłowe",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 123,
+            "name": "Kettlebell swing",
+            "type": "siłowe",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 124,
+            "name": "Podciąganie na drążku z obciążeniem",
+            "type": "siłowe",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 125,
+            "name": "Wykroki ze sztangą",
+            "type": "siłowe",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 126,
+            "name": "Wiosłowanie hantlami w opadzie tułowia",
+            "type": "siłowe",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 127,
+            "name": "Rwanie kettlebell",
+            "type": "siłowe",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 128,
+            "name": "Przysiad przedni ze sztangą",
+            "type": "siłowe",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 129,
+            "name": "Thruster (przysiad + wyciskanie hantli)",
+            "type": "siłowe",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 130,
+            "name": "Martwy ciąg klasyczny",
+            "type": "siłowe",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 131,
+            "name": "Wyciskanie sztangi nad głowę",
+            "type": "siłowe",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 132,
+            "name": "Podrzut sztangi",
+            "type": "siłowe",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 133,
+            "name": "Przenoszenie hantli za głowę",
+            "type": "siłowe",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 134,
+            "name": "Farmers walk z kettlami",
+            "type": "siłowe",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 135,
+            "name": "Turkish get-up z kettlebell",
+            "type": "siłowe",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 136,
+            "name": "Hammer curl z hantlami",
+            "type": "siłowe",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 137,
+            "name": "Przysiady bułgarskie z hantlami",
+            "type": "siłowe",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 138,
+            "name": "Rumuński martwy ciąg ze sztangą",
+            "type": "siłowe",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 139,
+            "name": "Wiosłowanie sztangą w opadzie tułowia",
+            "type": "siłowe",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 140,
+            "name": "Face pull z wyciągiem",
+            "type": "siłowe",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 141,
+            "name": "Zarzut sztangi na barki",
+            "type": "siłowe",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 142,
+            "name": "Swing z kettlebell",
+            "type": "siłowe",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 143,
+            "name": "Thruster ze sztangą",
+            "type": "siłowe",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 144,
+            "name": "Unilateralne wyciskanie hantli",
+            "type": "siłowe",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 145,
+            "name": "Zercher squat",
+            "type": "siłowe",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 146,
+            "name": "Battle ropes – uderzenia linami",
+            "type": "siłowe",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 147,
+            "name": "Sprinty interwałowe 30s/30s",
+            "type": "interwały",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 148,
+            "name": "Bieg pod górę – interwały",
+            "type": "interwały",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 149,
+            "name": "Burpees + wyskok",
+            "type": "interwały",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 150,
+            "name": "Przeskoki nad skrzynią",
+            "type": "interwały",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 151,
+            "name": "Shadowboxing interwałowy 3x3min",
+            "type": "interwały",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 152,
+            "name": "Sprinty z oporem (taśma)",
+            "type": "interwały",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 153,
+            "name": "Sparingi",
+            "type": "interwały",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 154,
+            "name": "Mountain climbers – szybkie tempo",
+            "type": "interwały",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 155,
+            "name": "Sprinty po okręgu (zmiany kierunku)",
+            "type": "interwały",
+            "discipline": "uderzane i chwytane"
+        },
+        {
+            "id": 156,
+            "name": "Tabata z kettlebell (swing, snatch)",
+            "type": "interwały",
+            "discipline": "uderzane i chwytane"
         }
     ]
 }
