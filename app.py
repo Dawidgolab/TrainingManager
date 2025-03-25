@@ -165,7 +165,11 @@ def get_exercises():
     if not discipline:
         return jsonify({"error": "Nie podano kategorii ćwiczeń"}), 400
 
-    filtered_exercises = [ex for ex in exercises_data["exercises"] if ex["discipline"] == discipline]
+    # Obsługuje przypadki, gdy dyscyplina to np. "chwytane i uderzane"
+    if discipline == "chwytane i uderzane":
+        filtered_exercises = [ex for ex in exercises_data["exercises"] if ex["discipline"] in ["chwytane", "uderzane"]]
+    else:
+        filtered_exercises = [ex for ex in exercises_data["exercises"] if ex["discipline"] == discipline]
     
     if not filtered_exercises:
         return jsonify({"error": "Brak ćwiczeń dla tej kategorii"}), 404
@@ -180,6 +184,7 @@ def get_exercises():
     elif day_of_week == '6':  # Niedziela
         return jsonify([])  # Dzień wolny
     
+    # Losowanie 5 ćwiczeń
     selected_exercises = random.sample(filtered_exercises, min(len(filtered_exercises), 5))
     
     return jsonify(selected_exercises)
