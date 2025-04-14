@@ -138,23 +138,25 @@
                 bmr = 10 * weight + 6.25 * height - 5 * age - 161;
             }
 
-            // Mnożniki aktywności fizycznej (Można dostosować)
-            let activityMultiplier = 1.2; // Brak aktywności fizycznej
+            // Mnożniki aktywności fizycznej (można dostosować)
+            let activityMultiplier = 1.2; // Brak aktywności fizycznej (siedzący tryb życia)
+
             if (trainingFrequency === 1) {
-                activityMultiplier = 1.375; // Lekka aktywność (1-3 dni treningu)
+                activityMultiplier = 1.375; // Lekka aktywność (1 dzień lekkiego treningu lub spacery)
             } else if (trainingFrequency === 2) {
-                activityMultiplier = 1.55; // Umiarkowana aktywność (3-5 dni treningu)
+                activityMultiplier = 1.55; // Umiarkowana aktywność (2 dni umiarkowanego treningu)
             } else if (trainingFrequency === 3) {
-                activityMultiplier = 1.725; // Wysoka aktywność (6 dni treningu)
+                activityMultiplier = 1.725; // Wysoka aktywność (3 dni intensywnego treningu)
             } else if (trainingFrequency === 4) {
-                activityMultiplier = 2.0; // Bardzo wysoka aktywność (codzienne treningi)
+                activityMultiplier = 1.9; // Bardzo wysoka aktywność (trening 4–5 dni w tygodniu)
             } else if (trainingFrequency === 5) {
-                activityMultiplier = 2.2; // Bardzo wysoka aktywność (codzienne treningi)
+                activityMultiplier = 2.0; // Ekstremalna aktywność (codzienny trening lub praca fizyczna)
             } else if (trainingFrequency === 6) {
-                activityMultiplier = 2.375; // Bardzo wysoka aktywność (codzienne treningi)
+                activityMultiplier = 2.2; // Bardzo intensywny styl życia (6 dni treningów + aktywność poza nimi)
             } else if (trainingFrequency === 7) {
-                activityMultiplier = 2.55; // Bardzo wysoka aktywność (codzienne treningi)
+                activityMultiplier = 2.4; // Sportowiec zawodowy (7 dni w tygodniu + aktywność pozatreningowa)
             }
+
 
             let totalCalories = bmr * activityMultiplier;
 

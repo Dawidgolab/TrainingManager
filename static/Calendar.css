@@ -186,6 +186,18 @@ form button:hover {
     }
 }
 
+
+.delete-btn {
+    background-color: red;
+    margin-top: 10px;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+
 /* Ustawienia dla footera */
 footer {
     background-color: #173a77;
