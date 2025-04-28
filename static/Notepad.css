@@ -141,14 +141,6 @@ button {
     background: #16a085;
 }
 
-#clear-btn {
-    background: #ff6b6b;
-}
-
-#clear-btn:hover {
-    background: #ff4757;
-}
-
 /* Zapisane notatki */
 .saved-notes {
     margin-top: 20px;
@@ -171,9 +163,10 @@ button {
 .delete-btn {
     background: #dc3545;
     padding: 6px 12px;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
     transition: background 0.3s;
+    width: 30px;
 }
 
 .delete-btn:hover {
