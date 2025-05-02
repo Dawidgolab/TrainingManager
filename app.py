@@ -73,8 +73,7 @@ def ask_details():
                 last_name=user_data.get("last-name"),
                 age=int(user_data.get("age")),
                 discipline=user_data.get("discipline"),
-                credentials_id=credentials_id,  # Przypisanie poprawnego credentials_id
-                level=1  # Ustaw domyślny poziom
+                credentials_id=credentials_id  # Przypisanie poprawnego credentials_id
             )
             db.session.add(new_user)
             db.session.commit()

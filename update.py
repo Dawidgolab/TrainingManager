@@ -2,8 +2,6 @@ from app import app, db, UserData, UserCredentials
 
 # Uruchomienie kontekstu aplikacji Flask
 with app.app_context():
-    # Zaktualizuj rekordy z NULL w kolumnie 'level'
-    db.session.query(UserData).filter(UserData.level == None).update({UserData.level: 1})
     
     # Zaktualizuj rekordy z NULL w kolumnie 'credentials_id'
     users_with_null_credentials = UserData.query.filter(UserData.credentials_id == None).all()
