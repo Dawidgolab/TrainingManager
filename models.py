@@ -12,7 +12,8 @@ class UserData(db.Model):
     age = db.Column(db.Integer, nullable=False)
     discipline = db.Column(db.String(100), nullable=False)
     credentials_id = db.Column(db.Integer, db.ForeignKey('user_credentials.id'))  # Powiązanie z UserCredentials
-    
+    nazwa = db.Column(db.String(100), nullable=False)
+
     def __repr__(self):
         return f"<User {self.first_name} {self.last_name}>"
 

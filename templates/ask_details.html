@@ -13,8 +13,17 @@
         <h1>Podaj swoje dane</h1>
         <p>Wprowadź swoje dane i załóż konto</p>
 
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+
         <!-- Formularz do wprowadzenia danych -->
         <form id="user-data-form" method="POST">
+            <input type="text" name="nick-name" placeholder="Nazwa" required />
             <input type="text" name="first-name" placeholder="Imię" required />
             <input type="text" name="last-name" placeholder="Nazwisko" required />
             <input type="number" name="age" placeholder="Wiek" required min="1" />

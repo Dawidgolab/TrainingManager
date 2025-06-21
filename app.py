@@ -55,10 +55,14 @@ app.secret_key = 'your_secret_key'  # Powinien być losowy i trudny do odgadnię
 def ask_details():
     if request.method == 'POST':
         user_data = request.form
+        existing_user = UserCredentials.query.filter_by(login=user_data.get("nick-name")).first()
+        if existing_user:
+            flash("Ten login (nick-name) jest już zajęty. Wybierz inny.", "error")
+            return redirect(url_for('ask_details'))
         try:
             # Dodaj dane logowania do tabeli UserCredentials
             new_credentials = UserCredentials(
-                login=user_data.get("first-name"),
+                login=user_data.get("nick-name"),
                 password_hash=generate_password_hash(user_data.get("password")),
             )
             db.session.add(new_credentials)
@@ -73,15 +77,16 @@ def ask_details():
                 last_name=user_data.get("last-name"),
                 age=int(user_data.get("age")),
                 discipline=user_data.get("discipline"),
+                nazwa=user_data.get("nick-name"),
                 credentials_id=credentials_id  # Przypisanie poprawnego credentials_id
             )
             db.session.add(new_user)
             db.session.commit()
 
             # Zapisz imię użytkownika w sesji
-            session['user_name'] = user_data.get("first-name")
+            session['user_name'] = new_user.first_name
 
-            return redirect(url_for('main'))
+            return redirect(url_for('Login'))
 
         except SQLAlchemyError as e:
             db.session.rollback()  # Cofnięcie transakcji w razie błędu
@@ -94,23 +99,30 @@ def ask_details():
 
 # Strona logowania
 @app.route('/login', methods=['GET', 'POST'])
+
 def login():
     if request.method == 'POST':
-        login = request.form.get('first-name')  # Pobieranie loginu (imienia)
-        password = request.form.get('password')  # Pobieranie hasła
+        login = request.form.get('nick-name')
+        password = request.form.get('password')
         
-        # Sprawdź dane logowania w tabeli UserCredentials
         user_credentials = UserCredentials.query.filter_by(login=login).first()
+    
 
         if user_credentials and check_password_hash(user_credentials.password_hash, password):
-            # Logowanie powiodło się
-            session['user_name'] = login  # Zapisz login w sesji
-            return redirect(url_for('main'))  # Przekierowanie na stronę 'main'
+            print("✅ Logowanie udane!")
+            session['nick-name'] = login
+            
+            # Pobierz dane użytkownika
+            user_data = UserData.query.filter_by(credentials_id=user_credentials.id).first()
+            if user_data:
+                session['user_name'] = user_data.first_name  # <- Dodaj to!
+
+            return redirect(url_for('main'))
         else:
-            # Niepoprawne dane logowania
-            flash("Niepoprawne dane logowania. Spróbuj ponownie.", "error" )  # Wyświetl komunikat
-            return redirect(url_for('login'))  # Powrót do strony logowania
-    
+            print("❌ Błędne dane logowania.")
+            flash("Niepoprawne dane logowania. Spróbuj ponownie.", "error")
+            return redirect(url_for('login'))
+
     return render_template('login.html')
 
 
@@ -143,11 +155,11 @@ with open("Exercises.json", encoding="utf-8") as f:
 # Strona z generowaniem planów treningowych
 @app.route('/Workout_plan')
 def workout_plan():
-    if 'user_name' not in session:
+    if 'nick-name' not in session:
         flash("Musisz być zalogowany, aby zobaczyć kalendarz.", "error")
         return redirect(url_for('login'))
     
-    user = UserData.query.filter_by(first_name=session['user_name']).first()
+    user = UserData.query.filter_by(nazwa=session['nick-name']).first()
 
     if user:
         return render_template('Workout_plan.html')
@@ -210,12 +222,12 @@ def BMI():
 
 @app.route('/Calendar')
 def Calendar():
-    if 'user_name' not in session:
+    if 'nick-name' not in session:
         flash("Musisz być zalogowany, aby zobaczyć kalendarz.", "error")
         return redirect(url_for('login'))
 
     # Pobierz użytkownika na podstawie loginu
-    user = UserData.query.filter_by(first_name=session['user_name']).first()
+    user = UserData.query.filter_by(nazwa=session['nick-name']).first()
 
     if user:
         # Pobierz wszystkie zapisane treningi dla tego użytkownika
@@ -233,11 +245,11 @@ def Calendar():
 
 @app.route('/add_training', methods=['POST'])
 def add_training():
-    if 'user_name' not in session:
+    if 'nick-name' not in session:
         flash("Musisz być zalogowany, aby zapisać trening.", "error")
         return redirect(url_for('login'))
 
-    user = UserData.query.filter_by(first_name=session['user_name']).first()
+    user = UserData.query.filter_by(nazwa=session['nick-name']).first()
 
     if not user:
         flash("Nie znaleziono danych użytkownika.", "error")
@@ -276,7 +288,7 @@ def add_training():
 
 
 def save_training():
-    if 'user_name' not in session:
+    if 'nick-name' not in session:
         flash("Musisz być zalogowany, aby dodać trening.", "error")
         return redirect(url_for('login'))
 
@@ -285,7 +297,7 @@ def save_training():
     training_type = request.form['training_type']
 
     # Pobierz użytkownika na podstawie loginu
-    user = UserData.query.filter_by(first_name=session['user_name']).first()
+    user = UserData.query.filter_by(nazwa=session['nick-name']).first()
 
     if user:
         # Zapisz trening w bazie danych
@@ -307,14 +319,14 @@ def save_training():
 @app.route('/delete_training', methods=['POST'])
 def delete_training():
     # Sprawdzamy, czy użytkownik jest zalogowany
-    if 'user_name' not in session:
+    if 'nick-name' not in session:
         return jsonify({'success': False, 'message': 'Musisz być zalogowany, aby usunąć trening.'})
 
     training_date = request.form['training_date']
     print(f"Trening do usunięcia: {training_date}")  # Logowanie daty treningu
 
     # Pobierz użytkownika na podstawie loginu
-    user = UserData.query.filter_by(first_name=session['user_name']).first()
+    user = UserData.query.filter_by(nazwa=session['nick-name']).first()
 
     if user:
         # Znajdź trening w bazie danych na podstawie daty i użytkownika
@@ -337,11 +349,11 @@ def delete_training():
 #strona z Notatnikiem
 @app.route('/Notepad')
 def notepad():
-    if 'user_name' not in session:
+    if 'nick-name' not in session:
         flash("Musisz być zalogowany, aby korzystać z notatnika.", "error")
         return redirect(url_for('login'))
 
-    user = UserData.query.filter_by(first_name=session['user_name']).first()
+    user = UserData.query.filter_by(nazwa=session['nick-name']).first()
     if not user:
         flash("Nie znaleziono użytkownika.", "error")
         return redirect(url_for('main'))
@@ -355,10 +367,10 @@ def notepad():
 
 @app.route('/save_note', methods=['POST'])
 def save_note():
-    if 'user_name' not in session:
+    if 'nick-name' not in session:
         return jsonify({'success': False, 'message': 'Musisz być zalogowany, aby zapisać notatkę.'})
 
-    user = UserData.query.filter_by(first_name=session['user_name']).first()
+    user = UserData.query.filter_by(nazwa=session['nick-name']).first()
     if not user:
         return jsonify({'success': False, 'message': 'Nie znaleziono użytkownika.'})
 
@@ -377,7 +389,7 @@ def save_note():
 
 @app.route('/delete_note', methods=['POST'])
 def delete_note():
-    if 'user_name' not in session:
+    if 'nick-name' not in session:
         return jsonify({'success': False, 'message': 'Musisz być zalogowany, aby usunąć notatkę.'})
 
     note_id = request.json.get('note_id')
@@ -398,11 +410,11 @@ def delete_note():
 # Codzienna motywacja/Ćwiczenia
 @app.route('/Daily_workout', methods=['GET', 'POST'])
 def Daily_workout():
-    if 'user_name' not in session:
+    if 'nick-name' not in session:
         flash("Musisz być zalogowany, aby korzystać z tej funkcji.", "error")
         return redirect(url_for('login'))
 
-    user = UserData.query.filter_by(first_name=session['user_name']).first()
+    user = UserData.query.filter_by(nazwa=session['nick-name']).first()
 
 
     return render_template('Daily_workout.html', user=user)
@@ -413,11 +425,11 @@ def Daily_workout():
 #Moje dane
 @app.route('/myData')
 def MyData():
-    if 'user_name' not in session:
+    if 'nick-name' not in session:
         flash("Musisz być zalogowany, aby zobaczyć swoje dane.", "error")
         return redirect(url_for('login'))
 
-    user = UserData.query.filter_by(first_name=session['user_name']).first()
+    user = UserData.query.filter_by(nazwa=session['nick-name']).first()
 
     if not user:
         flash("Nie znaleziono danych użytkownika.", "error")
