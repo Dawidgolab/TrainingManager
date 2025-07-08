@@ -80,6 +80,33 @@
             $("#btn-chwytane").click(() => fetchExercises("chwytane"));
             $("#btn-mieszane").click(() => fetchExercises("uderzane i chwytane"));
             $("#btn-uderzane").click(() => fetchExercises("uderzane"));
+
+            // 📝 Obsługa pobierania planu do pliku TXT
+            $("#download-plan").click(function () {
+                let textContent = "";
+                generatedPlan.forEach((exercises, index) => {
+                    textContent += `${daysOfWeek[index]}:\n`;
+
+                    if (exercises === "Wolne") {
+                        textContent += "- Dzień wolny! Czas na regenerację.\n\n";
+                    } else if (typeof exercises === "string") {
+                        textContent += `- ${exercises}\n\n`;
+                    } else {
+                        exercises.forEach(exercise => {
+                            textContent += `- ${exercise.name}\n`;
+                        });
+                        textContent += "\n";
+                    }
+                });
+
+                const blob = new Blob([textContent], { type: "text/plain;charset=utf-8" });
+                const link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+                link.download = "plan_treningowy.txt";
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            });
         });
     </script>
 
